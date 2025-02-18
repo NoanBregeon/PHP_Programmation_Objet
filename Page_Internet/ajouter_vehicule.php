@@ -22,6 +22,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $gps = isset($_POST['gps']) ? 1 : 0;
     $image = '';
 
+    // Récupérer le token GitHub depuis la base de données
+    try {
+        $stmt = $pdo->prepare('SELECT Token_Github FROM comptes WHERE Pseudo = ?');
+        $stmt->execute(['Admin']);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $githubToken = $result['Token_Github'];
+    } catch (PDOException $e) {
+        $message = 'Erreur : ' . $e->getMessage();
+    }
+
     // Gestion du téléchargement de l'image
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $imageTmpPath = $_FILES['image']['tmp_name'];
@@ -35,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (move_uploaded_file($imageTmpPath, $destPath)) {
             // Uploader l'image sur GitHub
-            $githubToken = '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';
             $githubRepo = 'NoanBregeon/PHP_Programmation_Objet';
             $githubPath = 'Page_Internet/Images/' . $newImageName; 
 
