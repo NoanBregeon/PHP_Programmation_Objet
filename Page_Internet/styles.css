@@ -189,3 +189,35 @@ footer {
 #reservation button:hover {
     background-color: #555;
 }
+
+/* Styles pour la page de connexion */
+#connexion form {
+    display: flex;
+    flex-direction: column;
+}
+
+#connexion label {
+    margin-top: 10px;
+}
+
+#connexion input[type="text"],
+#connexion input[type="password"] {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#connexion button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#connexion button:hover {
+    background-color: #555;
+}
