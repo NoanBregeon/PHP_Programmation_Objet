@@ -58,20 +58,23 @@ footer {
 }
 
 /* Styles pour la page des véhicules */
+#vehicules {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
 #vehicules ul {
-    display: flex;
-    flex-wrap: wrap;
     list-style-type: none;
     padding: 0;
 }
 
 #vehicules li {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    margin: 10px;
-    padding: 20px;
-    width: calc(33.333% - 40px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
     transition: transform 0.2s;
 }
 
@@ -80,11 +83,38 @@ footer {
 }
 
 #vehicules h2 {
-    margin-top: 0;
+    margin: 0;
+    font-size: 1.5em;
+    color: #333;
 }
 
 #vehicules p {
     margin: 5px 0;
+    color: #666;
+}
+
+#vehicules a, #vehicules button {
+    display: inline-block;
+    margin: 5px 0;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#vehicules a:hover, #vehicules button:hover {
+    background-color: #0056b3;
+}
+
+#vehicules button {
+    background-color: #dc3545;
+}
+
+#vehicules button:hover {
+    background-color: #c82333;
 }
 
 /* Styles pour la page d'ajout de véhicule */
