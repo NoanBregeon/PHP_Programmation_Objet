@@ -1,5 +1,6 @@
 <?php
 require_once 'pdo.php';
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -12,6 +13,9 @@ require_once 'pdo.php';
 </head>
 <body>
     <?php include 'header.php'; ?>
+    <section id="accueil">
+        <h1>Bienvenue sur notre site de gestion de véhicules</h1>
+    </section>
     <?php include 'footer.php'; ?>
 </body>
 </html>
