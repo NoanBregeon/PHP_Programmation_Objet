@@ -1,7 +1,7 @@
 <?php
 
 $host = "localhost";
-$db='ticket';
+$db='location_vehicules';
 $user ='root';
 $pass ='';
 $port = '3306';
