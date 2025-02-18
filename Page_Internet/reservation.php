@@ -1,5 +1,6 @@
 <?php
 require_once 'pdo.php';
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -9,7 +10,6 @@ require_once 'pdo.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réserver un véhicule</title>
     <link rel="stylesheet" href="styles.css?v=0">
-
 </head>
 <body>
     <?php include 'header.php'; ?>

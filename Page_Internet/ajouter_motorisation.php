@@ -1,5 +1,11 @@
 <?php
 require_once 'pdo.php';
+session_start();
+
+if (!isset($_SESSION['user']) || $_SESSION['user']['Pseudo'] !== 'Admin') {
+    header('Location: connexion.php');
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $motorisation = $_POST['motorisation'];

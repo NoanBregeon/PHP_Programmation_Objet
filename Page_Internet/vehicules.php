@@ -1,9 +1,10 @@
 <?php
 require_once 'pdo.php';
+session_start();
 
 // Récupérer les données des véhicules depuis la base de données
 try {
-    $stmt = $pdo->query('SELECT Marques AS marque, Modeles AS modele, Motorisation AS motorisation, Places AS places, GPS AS gps FROM vehicules');
+    $stmt = $pdo->query('SELECT id, Marques AS marque, Modeles AS modele, Motorisation AS motorisation, Places AS places, GPS AS gps FROM vehicules');
     $vehicules = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo 'Erreur : ' . $e->getMessage();
@@ -30,6 +31,9 @@ try {
                         <p>Motorisation: <?php echo htmlspecialchars($vehicule['motorisation']); ?></p>
                         <p>Places: <?php echo htmlspecialchars($vehicule['places']); ?></p>
                         <p>GPS: <?php echo $vehicule['gps'] ? 'Oui' : 'Non'; ?></p>
+                        <?php if (isset($_SESSION['user']) && $_SESSION['user']['Pseudo'] === 'Admin'): ?>
+                            <a href="modifier_vehicule.php?id=<?php echo $vehicule['id']; ?>">Modifier</a>
+                        <?php endif; ?>
                     </li>
                 <?php endforeach; ?>
             </ul>
