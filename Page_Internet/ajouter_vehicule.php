@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Uploader l'image sur GitHub
             $githubToken = '';
             $githubRepo = 'NoanBregeon/PHP_Programmation_Objet';
-            $githubPath = 'images/' . $newImageName; // Chemin dans le dépôt GitHub
+            $githubPath = 'Page_Internet/Images/' . $newImageName; 
 
             $imageData = base64_encode(file_get_contents($destPath));
             $data = json_encode([
