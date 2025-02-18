@@ -23,10 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $regulateur_vitesse = isset($_POST['regulateur_vitesse']) ? 1 : 0;
     $pack_electrique = isset($_POST['pack_electrique']) ? 1 : 0;
     $gps = isset($_POST['gps']) ? 1 : 0;
+    $prix = $_POST['prix'];
 
     try {
-        $stmt = $pdo->prepare('UPDATE vehicules SET Type = ?, Marques = ?, Modeles = ?, BVA = ?, Places = ?, Motorisation = ?, Radio = ?, Climatisation = ?, Bluetooth = ?, Regulateur_vitesse = ?, Pack_Electrique = ?, GPS = ? WHERE id = ?');
-        $stmt->execute([$type, $marque, $modele, $bva, $places, $motorisation, $radio, $climatisation, $bluetooth, $regulateur_vitesse, $pack_electrique, $gps, $id]);
+        $stmt = $pdo->prepare('UPDATE vehicules SET Type = ?, Marques = ?, Modeles = ?, BVA = ?, Places = ?, Motorisation = ?, Radio = ?, Climatisation = ?, Bluetooth = ?, Regulateur_vitesse = ?, Pack_Electrique = ?, GPS = ?, prix = ? WHERE id = ?');
+        $stmt->execute([$type, $marque, $modele, $bva, $places, $motorisation, $radio, $climatisation, $bluetooth, $regulateur_vitesse, $pack_electrique, $gps, $prix, $id]);
         header('Location: vehicules.php');
         exit;
     } catch (PDOException $e) {
@@ -117,7 +118,10 @@ try {
             
             <label for="gps">GPS:</label>
             <input type="checkbox" id="gps" name="gps" <?php if (($vehicule['GPS'] ?? 0) == 1) echo 'checked'; ?>>
-            
+
+            <label for="prix">Prix Journalié:</label>
+            <input type="number" id="prix" name="prix" value="<?php echo htmlspecialchars($vehicule['prix'] ?? ''); ?>" required>
+
             <button type="submit">Modifier</button>
         </form>
     </section>

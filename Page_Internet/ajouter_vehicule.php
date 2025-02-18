@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $regulateur_vitesse = isset($_POST['regulateur_vitesse']) ? 1 : 0;
     $pack_electrique = isset($_POST['pack_electrique']) ? 1 : 0;
     $gps = isset($_POST['gps']) ? 1 : 0;
-    $image = '';
+    $prix = isset($_POST['prix']);
 
     // Récupérer le token GitHub depuis la base de données
     try {
@@ -32,8 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = 'Erreur : ' . $e->getMessage();
     }
     try {
-        $stmt = $pdo->prepare('INSERT INTO vehicules (Type, Marques, Modeles, BVA, Places, Motorisation, Radio, Climatisation, Bluetooth, Regulateur_vitesse, Pack_Electrique, GPS, Image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-        $stmt->execute([$type, $marque, $modele, $bva, $places, $motorisation, $radio, $climatisation, $bluetooth, $regulateur_vitesse, $pack_electrique, $gps, $image]);
+        $stmt = $pdo->prepare('INSERT INTO vehicules (Type, Marques, Modeles, BVA, Places, Motorisation, Radio, Climatisation, Bluetooth, Regulateur_vitesse, Pack_Electrique, GPS, prix) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        $stmt->execute([$type, $marque, $modele, $bva, $places, $motorisation, $radio, $climatisation, $bluetooth, $regulateur_vitesse, $pack_electrique, $gps, $prix]);
         $message = "Véhicule ajouté avec succès.";
     } catch (PDOException $e) {
         $message = 'Erreur : ' . $e->getMessage();
@@ -95,6 +95,8 @@ try {
             <input type="checkbox" id="pack_electrique" name="pack_electrique">
             <label for="gps">GPS:</label>
             <input type="checkbox" id="gps" name="gps">
+            <label for='prix'>Prix Journalié</label>
+            <input type="number" id="prix" name="prix" required>
             <button type="submit">Ajouter</button>
         </form>
     </section>
