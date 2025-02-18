@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <nav>
         <ul>
             <li><a href="index.php">Home</a></li>
-            <li><a href="vehicules.php">Véhicules</a></li>
+            <li><a href="flotte.php">Véhicules</a></li>
             <li><a href="reservation.php">Réservations</a></li>
             <?php if (isset($_SESSION['user']) && $_SESSION['user']['Pseudo'] === 'Admin'): ?>
                 <li><a href="ajouter_vehicule.php">Ajout Véhicule</a></li>

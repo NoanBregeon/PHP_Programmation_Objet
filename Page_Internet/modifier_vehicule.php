@@ -1,13 +1,16 @@
 <?php
-require_once 'Models\Bdd.php';
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once 'Models/Bdd.php';
+require_once 'Models/Vehicule.php';
+require_once 'Models/Motorisation.php';
+session_start();
 
 if (!isset($_SESSION['user']) || $_SESSION['user']['Pseudo'] !== 'Admin') {
     header('Location: connexion.php');
     exit;
 }
+
+$vehiculeModel = new Vehicule($pdo);
+$motorisationModel = new Motorisation($pdo);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'];
@@ -25,36 +28,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $gps = isset($_POST['gps']) ? 1 : 0;
     $prix = $_POST['prix'];
 
-    try {
-        $stmt = $pdo->prepare('UPDATE vehicules SET Type = ?, Marques = ?, Modeles = ?, BVA = ?, Places = ?, Motorisation = ?, Radio = ?, Climatisation = ?, Bluetooth = ?, Regulateur_vitesse = ?, Pack_Electrique = ?, GPS = ?, prix = ? WHERE id = ?');
-        $stmt->execute([$type, $marque, $modele, $bva, $places, $motorisation, $radio, $climatisation, $bluetooth, $regulateur_vitesse, $pack_electrique, $gps, $prix, $id]);
-        header('Location: vehicules.php');
-        exit;
-    } catch (PDOException $e) {
-        $message = 'Erreur : ' . $e->getMessage();
-    }
+    $message = $vehiculeModel->modifierVehicule($id, $type, $marque, $modele, $bva, $places, $motorisation, $radio, $climatisation, $bluetooth, $regulateur_vitesse, $pack_electrique, $gps, $prix);
+    header('Location: flotte.php');
+    exit;
 } else {
     $id = $_GET['id'];
-    try {
-        $stmt = $pdo->prepare('SELECT * FROM vehicules WHERE id = ?');
-        $stmt->execute([$id]);
-        $vehicule = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$vehicule) {
-            throw new Exception("Véhicule non trouvé");
-        }
-    } catch (Exception $e) {
-        echo 'Erreur : ' . $e->getMessage();
+    $vehicule = $vehiculeModel->getVehiculeById($id);
+    if (!$vehicule) {
+        echo 'Erreur : Véhicule non trouvé';
         exit;
     }
 }
 
-// Récupérer les options de motorisation depuis la base de données
-try {
-    $stmt = $pdo->query('SELECT id, Motorisation FROM motorisation');
-    $motorisations = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo 'Erreur : ' . $e->getMessage();
-}
+$motorisations = $motorisationModel->getMotorisations();
 ?>
 
 <!DOCTYPE html>

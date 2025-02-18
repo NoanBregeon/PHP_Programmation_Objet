@@ -1,24 +1,18 @@
 <?php
-require_once 'Models\Bdd.php';
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once 'Models/Bdd.php';
+require_once 'Models/Motorisation.php';
+session_start();
 
 if (!isset($_SESSION['user']) || $_SESSION['user']['Pseudo'] !== 'Admin') {
     header('Location: connexion.php');
     exit;
 }
 
+$motorisationModel = new Motorisation($pdo);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $motorisation = $_POST['motorisation'];
-
-    try {
-        $stmt = $pdo->prepare('INSERT INTO motorisation (Motorisation) VALUES (?)');
-        $stmt->execute([$motorisation]);
-        $message = "Type de motorisation ajouté avec succès.";
-    } catch (PDOException $e) {
-        $message = 'Erreur : ' . $e->getMessage();
-    }
+    $message = $motorisationModel->ajouterMotorisation($motorisation);
 }
 ?>
 

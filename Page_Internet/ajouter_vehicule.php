@@ -1,11 +1,16 @@
 <?php
-require_once 'Models\Bdd.php';
+require_once 'Models/Bdd.php';
+require_once 'Models/Vehicule.php';
+require_once 'Models/Motorisation.php';
 session_start();
 
 if (!isset($_SESSION['user']) || $_SESSION['user']['Pseudo'] !== 'Admin') {
     header('Location: connexion.php');
     exit;
 }
+
+$vehiculeModel = new Vehicule($pdo);
+$motorisationModel = new Motorisation($pdo);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $type = $_POST['type'];
@@ -22,29 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $gps = isset($_POST['gps']) ? 1 : 0;
     $prix = $_POST['prix'];
 
-    // Récupérer le token GitHub depuis la base de données
-    try {
-        $stmt = $pdo->prepare('SELECT Token_Github FROM comptes WHERE Pseudo = ?');
-        $stmt->execute(['Admin']);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $githubToken = $result['Token_Github'];
-    } catch (PDOException $e) {
-        $message = 'Erreur : ' . $e->getMessage();
-    }
-    try {
-        $stmt = $pdo->prepare('INSERT INTO vehicules (Type, Marques, Modeles, BVA, Places, Motorisation, Radio, Climatisation, Bluetooth, Regulateur_vitesse, Pack_Electrique, GPS, prix) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-        $stmt->execute([$type, $marque, $modele, $bva, $places, $motorisation, $radio, $climatisation, $bluetooth, $regulateur_vitesse, $pack_electrique, $gps, $prix]);
-        $message = "Véhicule ajouté avec succès.";
-    } catch (PDOException $e) {
-        $message = 'Erreur : ' . $e->getMessage();
-    }
+    $message = $vehiculeModel->ajouterVehicule($type, $marque, $modele, $bva, $places, $motorisation, $radio, $climatisation, $bluetooth, $regulateur_vitesse, $pack_electrique, $gps, $prix);
 }
-try {
-    $stmt = $pdo->query('SELECT id, Motorisation FROM motorisation');
-    $motorisations = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo 'Erreur : ' . $e->getMessage();
-}
+
+$motorisations = $motorisationModel->getMotorisations();
 ?>
 
 <!DOCTYPE html>
