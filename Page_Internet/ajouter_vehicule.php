@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $regulateur_vitesse = isset($_POST['regulateur_vitesse']) ? 1 : 0;
     $pack_electrique = isset($_POST['pack_electrique']) ? 1 : 0;
     $gps = isset($_POST['gps']) ? 1 : 0;
-    $prix = isset($_POST['prix']);
+    $prix = $_POST['prix'];
 
     // Récupérer le token GitHub depuis la base de données
     try {
