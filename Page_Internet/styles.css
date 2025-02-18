@@ -1,20 +1,73 @@
 /* Styles généraux */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
 }
 
-header {
+header, footer {
     background-color: #333;
     color: #fff;
-    padding: 10px 0;
     text-align: center;
+    padding: 10px 0;
 }
 
-header h1 {
-    margin: 0;
+header a, footer a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+header a:hover, footer a:hover {
+    text-decoration: underline;
+}
+
+section {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="number"],
+form select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+form input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+form button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+form button:hover {
+    background-color: #0056b3;
 }
 
 nav ul {
@@ -39,25 +92,6 @@ nav ul li a:hover {
     text-decoration: underline;
 }
 
-section {
-    padding: 20px;
-    margin: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-}
-
-/* Styles pour la page des véhicules */
 #vehicules {
     max-width: 800px;
     margin: 20px auto;
@@ -117,174 +151,17 @@ footer {
     background-color: #c82333;
 }
 
-/* Styles pour la page d'ajout de véhicule */
-#ajouter-vehicule form {
-    display: flex;
-    flex-direction: column;
-}
-
-#ajouter-vehicule label {
-    margin-top: 10px;
-}
-
-#ajouter-vehicule input[type="text"],
-#ajouter-vehicule input[type="number"],
-#ajouter-vehicule select {
+.message {
     padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
+    margin-bottom: 20px;
     border-radius: 4px;
-}
-
-#ajouter-vehicule input[type="checkbox"] {
-    margin-top: 10px;
-}
-
-#ajouter-vehicule button {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #333;
     color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
 }
 
-#ajouter-vehicule button:hover {
-    background-color: #555;
+.message.success {
+    background-color: #28a745;
 }
 
-/* Styles pour la page de contact */
-#contact form {
-    display: flex;
-    flex-direction: column;
-}
-
-#contact label {
-    margin-top: 10px;
-}
-
-#contact input[type="text"],
-#contact input[type="email"],
-#contact textarea {
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-#contact button {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-#contact button:hover {
-    background-color: #555;
-}
-
-/* Styles pour la page de réservation */
-#reservation form {
-    display: flex;
-    flex-direction: column;
-}
-
-#reservation label {
-    margin-top: 10px;
-}
-
-#reservation input[type="text"],
-#reservation input[type="date"],
-#reservation input[type="number"] {
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-#reservation button {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-#reservation button:hover {
-    background-color: #555;
-}
-
-/* Styles pour la page de connexion */
-#connexion form {
-    display: flex;
-    flex-direction: column;
-}
-
-#connexion label {
-    margin-top: 10px;
-}
-
-#connexion input[type="text"],
-#connexion input[type="password"] {
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-#connexion button {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-#connexion button:hover {
-    background-color: #555;
-}
-
-/* Styles pour la page de modification de véhicule */
-#modifier-vehicule form {
-    display: flex;
-    flex-direction: column;
-}
-
-#modifier-vehicule label {
-    margin-top: 10px;
-}
-
-#modifier-vehicule input[type="text"],
-#modifier-vehicule input[type="number"],
-#modifier-vehicule select {
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-#modifier-vehicule input[type="checkbox"] {
-    margin-top: 10px;
-}
-
-#modifier-vehicule button {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-#modifier-vehicule button:hover {
-    background-color: #555;
+message.error {
+    background-color: #dc3545;
 }
