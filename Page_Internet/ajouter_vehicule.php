@@ -43,6 +43,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $uploadDir = 'uploads/';
         $destPath = $uploadDir . $newImageName;
 
+        // Vérifier et créer le répertoire uploads/ si nécessaire
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
         if (move_uploaded_file($imageTmpPath, $destPath)) {
             // Uploader l'image sur GitHub
             $githubRepo = 'NoanBregeon/PHP_Programmation_Objet';
