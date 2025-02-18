@@ -1,6 +1,8 @@
 <?php
 require_once 'pdo.php';
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (!isset($_SESSION['user']) || $_SESSION['user']['Pseudo'] !== 'Admin') {
     header('Location: connexion.php');
@@ -26,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter un type de motorisation</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=0">
 </head>
 <body>
 <?php include 'header.php'; ?>

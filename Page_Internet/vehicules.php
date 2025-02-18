@@ -30,7 +30,6 @@ try {
                         <p>Modèle: <?php echo htmlspecialchars($vehicule['modele']); ?></p>
                         <p>Motorisation: <?php echo htmlspecialchars($vehicule['motorisation']); ?></p>
                         <p>Places: <?php echo htmlspecialchars($vehicule['places']); ?></p>
-                        <p>GPS: <?php echo $vehicule['gps'] ? 'Oui' : 'Non'; ?></p>
                         <?php if (isset($_SESSION['user']) && $_SESSION['user']['Pseudo'] === 'Admin'): ?>
                             <a href="modifier_vehicule.php?id=<?php echo $vehicule['id']; ?>">Modifier</a>
                         <?php endif; ?>
