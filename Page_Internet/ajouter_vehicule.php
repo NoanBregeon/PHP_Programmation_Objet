@@ -1,5 +1,5 @@
 <?php
-require_once 'pdo.php';
+require_once 'Models\Bdd.php';
 session_start();
 
 if (!isset($_SESSION['user']) || $_SESSION['user']['Pseudo'] !== 'Admin') {

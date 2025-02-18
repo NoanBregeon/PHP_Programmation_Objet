@@ -1,5 +1,5 @@
 <?php
-require_once 'pdo.php';
+require_once 'Models\Bdd.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }

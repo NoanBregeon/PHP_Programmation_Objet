@@ -1,5 +1,5 @@
 <?php
-require_once 'pdo.php';
+require_once 'Models\Bdd.php';
 session_start();
 
 // Supprimer un véhicule si l'ID est fourni et que l'utilisateur est admin

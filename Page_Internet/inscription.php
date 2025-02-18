@@ -1,5 +1,5 @@
 <?php
-require_once 'pdo.php';
+require_once 'Models\Bdd.php';
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
