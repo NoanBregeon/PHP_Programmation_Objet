@@ -162,6 +162,6 @@ nav ul li a:hover {
     background-color: #28a745;
 }
 
-message.error {
+.message.error {
     background-color: #dc3545;
 }
