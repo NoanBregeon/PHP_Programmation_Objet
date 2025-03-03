@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'Models\Bdd.php';
+require_once 'models\Bdd.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pseudo = $_POST['pseudo'];

@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once 'Models/Bdd.php';
-require_once 'Models/Vehicule.php';
+require_once 'models/Bdd.php';
+require_once 'models/Vehicule.php';
 
 $vehiculeModel = new Vehicule($pdo);
 

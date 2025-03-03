@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once 'Models/Bdd.php';
-require_once 'Models/Motorisation.php';
+require_once 'models/Bdd.php';
+require_once 'models/Motorisation.php';
 
 if (!isset($_SESSION['user']) || $_SESSION['user']['Pseudo'] !== 'Admin') {
     header('Location: connexion.php');
