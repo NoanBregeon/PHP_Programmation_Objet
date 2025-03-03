@@ -1,26 +1,14 @@
 <?php
+require_once '../models/Bdd.php';
 session_start();
-require_once 'models\Bdd.php';
+
+$bdd = new Bdd();
+$pdo = $bdd->getConnection();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $pseudo = $_POST['pseudo'];
-    $mdp = $_POST['mdp'];
-
-    try {
-        $stmt = $pdo->prepare('SELECT * FROM comptes WHERE Pseudo = ? AND MDP = ?');
-        $stmt->execute([$pseudo, $mdp]);
-        $user = $stmt->fetch();
-
-        if ($user) {
-            $_SESSION['user'] = $user;
-            header('Location: index.php');
-            exit;
-        } else {
-            $message = "Nom d'utilisateur ou mot de passe incorrect.";
-        }
-    } catch (PDOException $e) {
-        $message = 'Erreur : ' . $e->getMessage();
-    }
+   $pseudo = $_POST['pseudo'];
+   $mdp = $_POST['mdp']
+   
 }
 ?>
 

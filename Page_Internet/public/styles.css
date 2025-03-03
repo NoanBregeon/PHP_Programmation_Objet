@@ -4,19 +4,25 @@ body {
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 header, footer {
     background-color: #333;
     color: #fff;
     text-align: center;
-    padding: 10px 0;
+    padding: 15px 0;
+    width: 100%;
 }
 
 header a, footer a {
     color: #fff;
     text-decoration: none;
-    margin: 0 10px;
+    margin: 0 15px;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 header a:hover, footer a:hover {
@@ -24,138 +30,122 @@ header a:hover, footer a:hover {
 }
 
 section {
-    max-width: 800px;
+    width: 90%;
+    max-width: 900px;
     margin: 20px auto;
-    padding: 20px;
+    padding: 25px;
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Formulaires */
 form {
     display: flex;
     flex-direction: column;
 }
 
 form label {
-    margin: 10px 0 5px;
+    margin: 12px 0 6px;
     font-weight: bold;
+    font-size: 14px;
 }
 
-form input[type="text"],
-form input[type="password"],
-form input[type="number"],
-form select {
-    padding: 8px;
+form input, form select {
+    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 10px;
-}
-
-form input[type="checkbox"] {
-    margin-right: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 16px;
 }
 
 form button {
-    padding: 10px 15px;
+    padding: 12px;
     background-color: #007bff;
-    color: #fff;
+    color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 form button:hover {
     background-color: #0056b3;
 }
 
+/* Navigation */
 nav ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
     display: flex;
     justify-content: center;
-}
-
-nav ul li {
-    margin: 0 15px;
+    gap: 20px;
 }
 
 nav ul li a {
     color: #fff;
     text-decoration: none;
     font-weight: bold;
+    font-size: 18px;
 }
 
 nav ul li a:hover {
     text-decoration: underline;
 }
 
+/* Liste des véhicules */
 #vehicules {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.vehicule-card {
+    background-color: #f8f9fa;
+    padding: 15px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-#vehicules ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-#vehicules li {
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
     transition: transform 0.2s;
 }
 
-#vehicules li:hover {
-    transform: scale(1.05);
+.vehicule-card:hover {
+    transform: scale(1.03);
 }
 
-#vehicules h2 {
+.vehicule-card h2 {
     margin: 0;
-    font-size: 1.5em;
+    font-size: 20px;
     color: #333;
 }
 
-#vehicules p {
-    margin: 5px 0;
-    color: #666;
+.vehicule-card p {
+    margin: 8px 0;
+    color: #555;
 }
 
-#vehicules a, #vehicules button {
-    display: inline-block;
-    margin: 5px 0;
-    padding: 8px 12px;
+.vehicule-card a, .vehicule-card button {
+    padding: 10px 15px;
     text-decoration: none;
-    color: #fff;
+    color: white;
     background-color: #007bff;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 14px;
 }
 
-#vehicules a:hover, #vehicules button:hover {
+.vehicule-card a:hover, .vehicule-card button:hover {
     background-color: #0056b3;
 }
 
-#vehicules button {
-    background-color: #dc3545;
-}
-
-#vehicules button:hover {
-    background-color: #c82333;
-}
-
 .message {
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 20px;
-    border-radius: 4px;
+    border-radius: 6px;
     color: #fff;
+    font-weight: bold;
 }
 
 .message.success {
@@ -164,4 +154,13 @@ nav ul li a:hover {
 
 .message.error {
     background-color: #dc3545;
+}
+
+@media screen and (max-width: 768px) {
+    section {
+        width: 95%;
+    }
+    form input, form select, form button {
+        font-size: 14px;
+    }
 }

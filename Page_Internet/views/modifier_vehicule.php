@@ -1,46 +1,35 @@
 <?php
-session_start();
-require_once 'models/Bdd.php';
-require_once 'models/Vehicule.php';
-require_once 'models/Motorisation.php';
+// views/modifier_vehicule.php
+require_once '../controllers/VehiculeController.php';
+require_once '../controllers/MotorisationController.php';
 
-if (!isset($_SESSION['user']) || $_SESSION['user']['Pseudo'] !== 'Admin') {
-    header('Location: connexion.php');
-    exit;
+$vehiculeController = new VehiculeController();
+$motorisationController = new MotorisationController();
+$motorisations = $motorisationController->obtenirMotorisations();
+
+$vehicule = null;
+if (isset($_GET['id'])) {
+    $vehicule = $vehiculeController->obtenirVehiculeParId($_GET['id']);
 }
 
-$vehiculeModel = new Vehicule($pdo);
-$motorisationModel = new Motorisation($pdo);
+if (!$vehicule) {
+    die("Véhicule introuvable.");
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['id'];
-    $type = $_POST['type'];
-    $marque = $_POST['marque'];
-    $modele = $_POST['modele'];
-    $bva = isset($_POST['bva']) ? 1 : 0;
-    $places = $_POST['places'];
-    $motorisation = $_POST['motorisation'];
-    $radio = isset($_POST['radio']) ? 1 : 0;
-    $climatisation = isset($_POST['climatisation']) ? 1 : 0;
-    $bluetooth = isset($_POST['bluetooth']) ? 1 : 0;
-    $regulateur_vitesse = isset($_POST['regulateur_vitesse']) ? 1 : 0;
-    $pack_electrique = isset($_POST['pack_electrique']) ? 1 : 0;
-    $gps = isset($_POST['gps']) ? 1 : 0;
-    $prix = $_POST['prix'];
-
-    $message = $vehiculeModel->modifierVehicule($id, $type, $marque, $modele, $bva, $places, $motorisation, $radio, $climatisation, $bluetooth, $regulateur_vitesse, $pack_electrique, $gps, $prix);
-    header('Location: flotte.php');
-    exit;
-} else {
-    $id = $_GET['id'];
-    $vehicule = $vehiculeModel->getVehiculeById($id);
-    if (!$vehicule) {
-        echo 'Erreur : Véhicule non trouvé';
-        exit;
+    $donnees = [
+        'marque' => $_POST['marque'] ?? '',
+        'modele' => $_POST['modele'] ?? '',
+        'annee' => $_POST['annee'] ?? '',
+        'motorisation_id' => $_POST['motorisation_id'] ?? ''
+    ];
+    
+    if (!empty($donnees['marque']) && !empty($donnees['modele']) && !empty($donnees['annee']) && !empty($donnees['motorisation_id'])) {
+        $vehiculeController->modifierVehicule($_GET['id'], $donnees);
+        header('Location: flotte.php');
+        exit();
     }
 }
-
-$motorisations = $motorisationModel->getMotorisations();
 ?>
 
 <!DOCTYPE html>
@@ -48,69 +37,40 @@ $motorisations = $motorisationModel->getMotorisations();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier un véhicule</title>
-    <link rel="stylesheet" href="styles.css?v=0">
+    <title>Modifier un Véhicule</title>
+    <link rel="stylesheet" href="../public/styles.css">
 </head>
 <body>
-<?php include 'header.php'; ?>
-    <section id="modifier-vehicule">
-        <?php if (isset($message)): ?>
-            <p><?php echo ($message); ?></p>
-        <?php endif; ?>
-        <form action="modifier_vehicule.php" method="post">
-            <input type="hidden" name="id" value="<?php echo ($vehicule['id'] ?? ''); ?>">
+    <header>
+        <h1>Modifier un Véhicule</h1>
+        <?php
+        // views/index.php
+        require_once 'header.php';
+        ?>
+    </header>
+    <section>
+        <form method="POST">
+            <label for="marque">Marque :</label>
+            <input type="text" id="marque" name="marque" value="<?= htmlspecialchars($vehicule['marque']) ?>" required>
             
-            <label for="type">Type:</label>
-            <select id="type" name="type" required>
-                <option value="Utilitaire" <?php if (($vehicule['Type'] ?? '') == 'Utilitaire') echo 'selected'; ?>>Utilitaire</option>
-                <option value="Tourisme" <?php if (($vehicule['Type'] ?? '') == 'Tourisme') echo 'selected'; ?>>Tourisme</option>
-            </select>
+            <label for="modele">Modèle :</label>
+            <input type="text" id="modele" name="modele" value="<?= htmlspecialchars($vehicule['modele']) ?>" required>
             
-            <label for="marque">Marque:</label>
-            <input type="text" id="marque" name="marque" value="<?php echo ($vehicule['Marques'] ?? ''); ?>" required>
+            <label for="annee">Année :</label>
+            <input type="number" id="annee" name="annee" value="<?= htmlspecialchars($vehicule['annee']) ?>" required>
             
-            <label for="modele">Modèle:</label>
-            <input type="text" id="modele" name="modele" value="<?php echo ($vehicule['Modeles'] ?? ''); ?>" required>
-            
-            <label for="bva">Boîte de vitesses automatique (BVA):</label>
-            <input type="checkbox" id="bva" name="bva" <?php if (($vehicule['BVA'] ?? 0) == 1) echo 'checked'; ?>>
-            
-            <label for="places">Places:</label>
-            <input type="number" id="places" name="places" value="<?php echo ($vehicule['Places'] ?? ''); ?>" required>
-            
-            <label for="motorisation">Motorisation:</label>
-            <select id="motorisation" name="motorisation" required>
+            <label for="motorisation_id">Motorisation :</label>
+            <select id="motorisation_id" name="motorisation_id" required>
+                <option value="">Sélectionner</option>
                 <?php foreach ($motorisations as $motorisation): ?>
-                    <option value="<?php echo ($motorisation['id']); ?>" <?php if ($motorisation['id'] == ($vehicule['Motorisation'] ?? '')) echo 'selected'; ?>>
-                        <?php echo ($motorisation['Motorisation']); ?>
+                    <option value="<?= $motorisation['id'] ?>" <?= ($vehicule['motorisation_id'] == $motorisation['id']) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($motorisation['nom']) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
             
-            <label for="radio">Radio:</label>
-            <input type="checkbox" id="radio" name="radio" <?php if (($vehicule['Radio'] ?? 0) == 1) echo 'checked'; ?>>
-            
-            <label for="climatisation">Climatisation:</label>
-            <input type="checkbox" id="climatisation" name="climatisation" <?php if (($vehicule['Climatisation'] ?? 0) == 1) echo 'checked'; ?>>
-            
-            <label for="bluetooth">Bluetooth:</label>
-            <input type="checkbox" id="bluetooth" name="bluetooth" <?php if (($vehicule['Bluetooth'] ?? 0) == 1) echo 'checked'; ?>>
-            
-            <label for="regulateur_vitesse">Régulateur de vitesse:</label>
-            <input type="checkbox" id="regulateur_vitesse" name="regulateur_vitesse" <?php if (($vehicule['Regulateur_vitesse'] ?? 0) == 1) echo 'checked'; ?>>
-            
-            <label for="pack_electrique">Pack Électrique:</label>
-            <input type="checkbox" id="pack_electrique" name="pack_electrique" <?php if (($vehicule['Pack_Electrique'] ?? 0) == 1) echo 'checked'; ?>>
-            
-            <label for="gps">GPS:</label>
-            <input type="checkbox" id="gps" name="gps" <?php if (($vehicule['GPS'] ?? 0) == 1) echo 'checked'; ?>>
-
-            <label for="prix">Prix Journalié:</label>
-            <input type="number" id="prix" name="prix" value="<?php echo ($vehicule['prix'] ?? ''); ?>" required>
-
             <button type="submit">Modifier</button>
         </form>
     </section>
-    <?php include 'footer.php'; ?>
 </body>
 </html>

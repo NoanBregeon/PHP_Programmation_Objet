@@ -1,28 +1,32 @@
 <?php
+// models/Motorisation.php
+require_once 'Bdd.php';
 
 class Motorisation {
-    private $pdo;
+    private $conn;
 
-    public function __construct($pdo) {
-        $this->pdo = $pdo;
+    public function __construct($db) {
+        $this->conn = $db;
     }
 
-    public function ajouterMotorisation($motorisation) {
-        try {
-            $stmt = $this->pdo->prepare('INSERT INTO motorisation (Motorisation) VALUES (?)');
-            $stmt->execute([$motorisation]);
-            return "Type de motorisation ajouté avec succès.";
-        } catch (PDOException $e) {
-            return 'Erreur : ' . $e->getMessage();
-        }
+    public function ajouter($donnees) {
+        $stmt = $this->conn->prepare("INSERT INTO motorisations (nom) VALUES (?)");
+        return $stmt->execute([$donnees['nom']]);
     }
 
-    public function getMotorisations() {
-        try {
-            $stmt = $this->pdo->query('SELECT id, Motorisation FROM motorisation');
-            return $stmt->fetchAll();
-        } catch (PDOException $e) {
-            return 'Erreur : ' . $e->getMessage();
-        }
+    public function modifier($id, $donnees) {
+        $stmt = $this->conn->prepare("UPDATE motorisations SET nom = ? WHERE id = ?");
+        return $stmt->execute([$donnees['nom'], $id]);
+    }
+
+    public function supprimer($id) {
+        $stmt = $this->conn->prepare("DELETE FROM motorisations WHERE id = ?");
+        return $stmt->execute([$id]);
+    }
+
+    public function obtenirToutes() {
+        $stmt = $this->conn->query("SELECT * FROM motorisations");
+        return $stmt->fetchAll();
     }
 }
+?>

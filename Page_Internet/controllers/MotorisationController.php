@@ -1,41 +1,40 @@
 <?php
-session_start();
-require_once 'models/Bdd.php';
-require_once 'models/Motorisation.php';
+// controllers/MotorisationController.php
+require_once '../models/Bdd.php';
+require_once '../models/Motorisation.php';
 
-if (!isset($_SESSION['user']) || $_SESSION['user']['Pseudo'] !== 'Admin') {
-    header('Location: connexion.php');
-    exit;
-}
+class MotorisationController {
+    private $bdd;
+    private $motorisation;
 
-$motorisationModel = new Motorisation($pdo);
+    public function __construct() {
+        $this->bdd = new Bdd();
+        $this->motorisation = new Motorisation($this->bdd->getConnection());
+    }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $motorisation = $_POST['motorisation'];
-    $message = $motorisationModel->ajouterMotorisation($motorisation);
+    public function ajouterMotorisation($nom) {
+        if ($this->motorisation->existe($nom)) {
+            return "Erreur : Cette motorisation existe déjà.";
+        }
+        return $this->motorisation->ajouter(['nom' => $nom]);
+    }
+
+    public function modifierMotorisation($id, $nom) {
+        if (!$this->motorisation->obtenirParId($id)) {
+            return "Erreur : Motorisation introuvable.";
+        }
+        return $this->motorisation->modifier($id, ['nom' => $nom]);
+    }
+
+    public function supprimerMotorisation($id) {
+        if (!$this->motorisation->obtenirParId($id)) {
+            return "Erreur : Motorisation introuvable.";
+        }
+        return $this->motorisation->supprimer($id);
+    }
+
+    public function obtenirMotorisations() {
+        return $this->motorisation->obtenirToutes();
+    }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un type de motorisation</title>
-    <link rel="stylesheet" href="styles.css?v=0">
-</head>
-<body>
-<?php include 'header.php'; ?>
-    <section id="ajouter-motorisation">
-        <?php if (isset($message)): ?>
-            <p><?php echo ($message); ?></p>
-        <?php endif; ?>
-        <form action="MotorisationController.php" method="post">
-            <label for="motorisation">Type de motorisation:</label>
-            <input type="text" id="motorisation" name="motorisation" required>
-            <button type="submit">Ajouter</button>
-        </form>
-    </section>
-    <?php include 'footer.php'; ?>
-</body>
-</html>

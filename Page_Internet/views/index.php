@@ -1,6 +1,6 @@
 <?php
+require_once '../models/Bdd.php';
 session_start();
-require_once 'models\Bdd.php';
 ?>
 
 <!DOCTYPE html>
@@ -15,6 +15,11 @@ require_once 'models\Bdd.php';
     <?php include 'header.php'; ?>
     <section id="accueil">
         <h1>Bienvenue sur notre site de gestion de véhicules</h1>
+        <?php if (isset($_SESSION['user_email'])): ?>
+            <p>Bienvenue, <?= htmlspecialchars($_SESSION['user_email']) ?> !</p>
+        <?php else: ?>
+            <p><a href="connexion.php">Connectez-vous</a> pour accéder à toutes les fonctionnalités.</p>
+        <?php endif; ?>
     </section>
     <?php include 'footer.php'; ?>
 </body>

@@ -1,23 +1,22 @@
-<?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location de Voitures</title>
+    <link rel="stylesheet" href="../public/styles.css">
+</head>
+<body>
 <header>
+    <h1>Location de Voitures</h1>
     <nav>
         <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href="flotte.php">Véhicules</a></li>
-            <li><a href="reservation.php">Réservations</a></li>
-            <?php if (isset($_SESSION['user']) && $_SESSION['user']['Pseudo'] === 'Admin'): ?>
-                <li><a href="ajouter_vehicule.php">Ajout Véhicule</a></li>
-                <li><a href="MotorisationController.php">Ajout Motorisation</a></li>
-            <?php endif; ?>
-            <?php if (isset($_SESSION['user'])): ?>
-                <li><a href="deconnexion.php">Déconnexion</a></li>
-            <?php else: ?>
+            <li><a href="index.php">Accueil</a></li>
+            <li><a href="flotte.php">Nos Véhicules</a></li>
+                <li><a href="reservation.php">Mes Réservations</a></li>
+                <li><a href="index.php?v=1">Déconnexion</a></li>
                 <li><a href="connexion.php">Connexion</a></li>
-            <?php endif; ?>
+                <li><a href="inscription.php">Inscription</a></li>
         </ul>
     </nav>
 </header>

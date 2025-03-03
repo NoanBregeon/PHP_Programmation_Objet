@@ -1,17 +1,36 @@
 <?php
+require_once '../controllers/AuthController.php';
+require_once '../models/Bdd.php';
 session_start();
-require_once 'models\Bdd.php';
+
+$authController = new AuthController();
+$bdd = new Bdd();
+$pdo = $bdd->getConnection();
+$erreur = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $pseudo = $_POST['pseudo'];
-    $mdp = $_POST['mdp'];
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
 
-    try {
-        $stmt = $pdo->prepare('INSERT INTO comptes (Pseudo, MDP) VALUES (?, ?)');
-        $stmt->execute([$pseudo, $mdp]);
-        $message = "Compte créé avec succès. Vous pouvez maintenant vous connecter.";
-    } catch (PDOException $e) {
-        $message = 'Erreur : ' . $e->getMessage();
+    if ($password === $confirm_password) {
+        try {
+            // Insérer l'utilisateur dans la base de données
+            $stmt = $pdo->prepare('INSERT INTO utilisateurs (email, password) VALUES (?, ?)');
+            $stmt->execute([$email, $password]);
+            $message = "Inscription réussie. Vous pouvez maintenant vous connecter.";
+        } catch (PDOException $e) {
+            $message = 'Erreur : ' . $e->getMessage();
+        }
+
+        if ($authController->inscription($email, $password)) {
+            header('Location: connexion.php');
+            exit();
+        } else {
+            $erreur = "Erreur lors de l'inscription. Veuillez réessayer.";
+        }
+    } else {
+        $erreur = "Les mots de passe ne correspondent pas.";
     }
 }
 ?>
@@ -22,24 +41,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
-    <link rel="stylesheet" href="styles.css?v=0">
+    <link rel="stylesheet" href="../public/styles.css">
 </head>
 <body>
-<?php include 'header.php'; ?>
-    <section id="inscription">
-        <?php if (isset($message)): ?>
-            <p><?php echo ($message); ?></p>
+    <header>
+        <h1>Inscription</h1>
+        <?php
+        // views/index.php
+        require_once 'header.php';
+        ?>
+    </header>
+    <section>
+        <?php if (!empty($erreur)) : ?>
+            <p class="message error"> <?= htmlspecialchars($erreur) ?> </p>
         <?php endif; ?>
-        <form action="inscription.php" method="post">
-            <label for="pseudo">Nom d'utilisateur:</label>
-            <input type="text" id="pseudo" name="pseudo" required>
+        <?php if (isset($message)): ?>
+            <p><?php echo htmlspecialchars($message); ?></p>
+        <?php endif; ?>
+        <form method="POST">
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" required>
             
-            <label for="mdp">Mot de passe:</label>
-            <input type="password" id="mdp" name="mdp" required>
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" name="password" required>
+            
+            <label for="confirm_password">Confirmer le mot de passe :</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
             
             <button type="submit">S'inscrire</button>
         </form>
     </section>
-    <?php include 'footer.php'; ?>
 </body>
 </html>

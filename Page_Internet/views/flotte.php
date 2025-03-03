@@ -1,17 +1,9 @@
 <?php
-session_start();
-require_once 'models/Bdd.php';
-require_once 'models/Vehicule.php';
+// views/flotte.php
+require_once '../controllers/VehiculeController.php';
 
-$vehiculeModel = new Vehicule($pdo);
-
-// Supprimer un véhicule si l'ID est fourni et que l'utilisateur est admin
-if (isset($_POST['supprimer']) && isset($_POST['id']) && $_SESSION['user']['Pseudo'] === 'Admin') {
-    $id = $_POST['id'];
-    $message = $vehiculeModel->supprimerVehicule($id);
-}
-
-$vehicules = $vehiculeModel->getVehicules();
+$vehiculeController = new VehiculeController();
+$vehicules = $vehiculeController->obtenirVehicules();
 ?>
 
 <!DOCTYPE html>
@@ -19,38 +11,30 @@ $vehicules = $vehiculeModel->getVehicules();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nos véhicules</title>
-    <link rel="stylesheet" href="styles.css?v=0">
+    <title>Flotte de Véhicules</title>
+    <link rel="stylesheet" href="../public/styles.css">
 </head>
-<body>    
-    <?php include 'header.php'; ?>
+<body>
+    <header>
+        <h1>Flotte de Véhicules</h1>
+        <?php
+        // views/index.php
+        require_once 'header.php';
+        ?>
+    </header>
     <section id="vehicules">
-        <?php if (isset($message)): ?>
-            <p><?php echo ($message); ?></p>
-        <?php endif; ?>
-        <?php if (!empty($vehicules)): ?>
-            <ul>
-                <?php foreach ($vehicules as $vehicule): ?>
-                    <li>
-                        <h2><?php echo ($vehicule->marque); ?></h2>
-                        <p>Modèle: <?php echo ($vehicule['modele']); ?></p>
-                        <p>Motorisation: <?php echo ($vehicule['motorisation']); ?></p>
-                        <p>Places: <?php echo ($vehicule['places']); ?></p>
-                        <p>Prix Journalié: <?php echo ($vehicule['prix']); ?></p>
-                        <?php if (isset($_SESSION['user']) && $_SESSION['user']['Pseudo'] === 'Admin'): ?>
-                            <a href="modifier_vehicule.php?id=<?php echo $vehicule['id']; ?>">Modifier</a>
-                            <form action="flotte.php" method="post" style="display:inline;">
-                                <input type="hidden" name="id" value="<?php echo $vehicule['id']; ?>">
-                                <button type="submit" name="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?');">Supprimer</button>
-                            </form>
-                        <?php endif; ?>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php else: ?>
-            <p>Aucun véhicule disponible pour le moment.</p>
+        <?php if (empty($vehicules)) : ?>
+            <p>Aucun véhicule disponible.</p>
+        <?php else : ?>
+            <?php foreach ($vehicules as $vehicule) : ?>
+                <div class="vehicule-card">
+                    <h2><?= htmlspecialchars($vehicule['marque'] . ' ' . $vehicule['Marques']) ?></h2>
+                    <p>Année : <?= htmlspecialchars($vehicule['annee']) ?></p>
+                    <p>Motorisation : <?= htmlspecialchars($vehicule['motorisation']) ?></p>
+                    <a href="reservation.php?vehicule_id=<?= $vehicule['id']; ?>">Réserver</a>
+                </div>
+            <?php endforeach; ?>
         <?php endif; ?>
     </section>
-    <?php include 'footer.php'; ?>
 </body>
 </html>
