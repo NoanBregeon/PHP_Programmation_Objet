@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php if (isset($message)): ?>
             <p><?php echo ($message); ?></p>
         <?php endif; ?>
-        <form action="ajouter_motorisation.php" method="post">
+        <form action="MotorisationController.php" method="post">
             <label for="motorisation">Type de motorisation:</label>
             <input type="text" id="motorisation" name="motorisation" required>
             <button type="submit">Ajouter</button>

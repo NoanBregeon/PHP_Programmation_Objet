@@ -11,7 +11,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <li><a href="reservation.php">Réservations</a></li>
             <?php if (isset($_SESSION['user']) && $_SESSION['user']['Pseudo'] === 'Admin'): ?>
                 <li><a href="ajouter_vehicule.php">Ajout Véhicule</a></li>
-                <li><a href="ajouter_motorisation.php">Ajout Motorisation</a></li>
+                <li><a href="MotorisationController.php">Ajout Motorisation</a></li>
             <?php endif; ?>
             <?php if (isset($_SESSION['user'])): ?>
                 <li><a href="deconnexion.php">Déconnexion</a></li>
