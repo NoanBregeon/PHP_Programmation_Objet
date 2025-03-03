@@ -1,10 +1,10 @@
 <?php
 
-class Vehicule {
-    private $pdo;
+class Vehicule extends Bdd{
+    // private $pdo;
 
-    public function __construct($pdo) {
-        $this->pdo = $pdo;
+    public function __construct() {
+        // $this->pdo = $pdo;
     }
 
     public function ajouterVehicule($type, $marque, $modele, $bva, $places, $motorisation, $radio, $climatisation, $bluetooth, $regulateur_vitesse, $pack_electrique, $gps, $prix) {
@@ -40,7 +40,7 @@ class Vehicule {
     public function getVehicules() {
         try {
             $stmt = $this->pdo->query('SELECT id, Marques AS marque, Modeles AS modele, Motorisation AS motorisation, Places AS places, GPS AS gps, prix AS prix FROM vehicules');
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll();
         } catch (PDOException $e) {
             return 'Erreur : ' . $e->getMessage();
         }
@@ -50,7 +50,7 @@ class Vehicule {
         try {
             $stmt = $this->pdo->prepare('SELECT * FROM vehicules WHERE id = ?');
             $stmt->execute([$id]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            return $stmt->fetch();
         } catch (PDOException $e) {
             return 'Erreur : ' . $e->getMessage();
         }

@@ -1,6 +1,6 @@
 <?php
-require_once 'Models\Bdd.php';
 session_start();
+require_once 'Models\Bdd.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pseudo = $_POST['pseudo'];
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php include 'header.php'; ?>
     <section id="inscription">
         <?php if (isset($message)): ?>
-            <p><?php echo htmlspecialchars($message); ?></p>
+            <p><?php echo ($message); ?></p>
         <?php endif; ?>
         <form action="inscription.php" method="post">
             <label for="pseudo">Nom d'utilisateur:</label>

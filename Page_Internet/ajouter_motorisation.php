@@ -1,7 +1,7 @@
 <?php
+session_start();
 require_once 'Models/Bdd.php';
 require_once 'Models/Motorisation.php';
-session_start();
 
 if (!isset($_SESSION['user']) || $_SESSION['user']['Pseudo'] !== 'Admin') {
     header('Location: connexion.php');
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php include 'header.php'; ?>
     <section id="ajouter-motorisation">
         <?php if (isset($message)): ?>
-            <p><?php echo htmlspecialchars($message); ?></p>
+            <p><?php echo ($message); ?></p>
         <?php endif; ?>
         <form action="ajouter_motorisation.php" method="post">
             <label for="motorisation">Type de motorisation:</label>

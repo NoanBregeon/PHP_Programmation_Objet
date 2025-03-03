@@ -20,7 +20,7 @@ class Motorisation {
     public function getMotorisations() {
         try {
             $stmt = $this->pdo->query('SELECT id, Motorisation FROM motorisation');
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll();
         } catch (PDOException $e) {
             return 'Erreur : ' . $e->getMessage();
         }

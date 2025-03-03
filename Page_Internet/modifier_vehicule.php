@@ -1,8 +1,8 @@
 <?php
+session_start();
 require_once 'Models/Bdd.php';
 require_once 'Models/Vehicule.php';
 require_once 'Models/Motorisation.php';
-session_start();
 
 if (!isset($_SESSION['user']) || $_SESSION['user']['Pseudo'] !== 'Admin') {
     header('Location: connexion.php');
@@ -55,10 +55,10 @@ $motorisations = $motorisationModel->getMotorisations();
 <?php include 'header.php'; ?>
     <section id="modifier-vehicule">
         <?php if (isset($message)): ?>
-            <p><?php echo htmlspecialchars($message); ?></p>
+            <p><?php echo ($message); ?></p>
         <?php endif; ?>
         <form action="modifier_vehicule.php" method="post">
-            <input type="hidden" name="id" value="<?php echo htmlspecialchars($vehicule['id'] ?? ''); ?>">
+            <input type="hidden" name="id" value="<?php echo ($vehicule['id'] ?? ''); ?>">
             
             <label for="type">Type:</label>
             <select id="type" name="type" required>
@@ -67,22 +67,22 @@ $motorisations = $motorisationModel->getMotorisations();
             </select>
             
             <label for="marque">Marque:</label>
-            <input type="text" id="marque" name="marque" value="<?php echo htmlspecialchars($vehicule['Marques'] ?? ''); ?>" required>
+            <input type="text" id="marque" name="marque" value="<?php echo ($vehicule['Marques'] ?? ''); ?>" required>
             
             <label for="modele">Modèle:</label>
-            <input type="text" id="modele" name="modele" value="<?php echo htmlspecialchars($vehicule['Modeles'] ?? ''); ?>" required>
+            <input type="text" id="modele" name="modele" value="<?php echo ($vehicule['Modeles'] ?? ''); ?>" required>
             
             <label for="bva">Boîte de vitesses automatique (BVA):</label>
             <input type="checkbox" id="bva" name="bva" <?php if (($vehicule['BVA'] ?? 0) == 1) echo 'checked'; ?>>
             
             <label for="places">Places:</label>
-            <input type="number" id="places" name="places" value="<?php echo htmlspecialchars($vehicule['Places'] ?? ''); ?>" required>
+            <input type="number" id="places" name="places" value="<?php echo ($vehicule['Places'] ?? ''); ?>" required>
             
             <label for="motorisation">Motorisation:</label>
             <select id="motorisation" name="motorisation" required>
                 <?php foreach ($motorisations as $motorisation): ?>
-                    <option value="<?php echo htmlspecialchars($motorisation['id']); ?>" <?php if ($motorisation['id'] == ($vehicule['Motorisation'] ?? '')) echo 'selected'; ?>>
-                        <?php echo htmlspecialchars($motorisation['Motorisation']); ?>
+                    <option value="<?php echo ($motorisation['id']); ?>" <?php if ($motorisation['id'] == ($vehicule['Motorisation'] ?? '')) echo 'selected'; ?>>
+                        <?php echo ($motorisation['Motorisation']); ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -106,7 +106,7 @@ $motorisations = $motorisationModel->getMotorisations();
             <input type="checkbox" id="gps" name="gps" <?php if (($vehicule['GPS'] ?? 0) == 1) echo 'checked'; ?>>
 
             <label for="prix">Prix Journalié:</label>
-            <input type="number" id="prix" name="prix" value="<?php echo htmlspecialchars($vehicule['prix'] ?? ''); ?>" required>
+            <input type="number" id="prix" name="prix" value="<?php echo ($vehicule['prix'] ?? ''); ?>" required>
 
             <button type="submit">Modifier</button>
         </form>

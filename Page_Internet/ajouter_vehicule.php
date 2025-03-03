@@ -1,8 +1,8 @@
 <?php
+session_start();
 require_once 'Models/Bdd.php';
 require_once 'Models/Vehicule.php';
 require_once 'Models/Motorisation.php';
-session_start();
 
 if (!isset($_SESSION['user']) || $_SESSION['user']['Pseudo'] !== 'Admin') {
     header('Location: connexion.php');
@@ -45,7 +45,7 @@ $motorisations = $motorisationModel->getMotorisations();
 <?php include 'header.php'; ?>
     <section id="ajouter-vehicule">
         <?php if (isset($message)): ?>
-            <p><?php echo htmlspecialchars($message); ?></p>
+            <p><?php echo ($message); ?></p>
         <?php endif; ?>
         <form action="ajouter_vehicule.php" method="post">
             <label for="type">Type:</label>
@@ -62,8 +62,8 @@ $motorisations = $motorisationModel->getMotorisations();
             <label for="motorisation">Motorisation:</label>
             <select id="motorisation" name="motorisation" required>
                 <?php foreach ($motorisations as $motorisation): ?>
-                    <option value="<?php echo htmlspecialchars($motorisation['id']); ?>">
-                        <?php echo htmlspecialchars($motorisation['Motorisation']); ?>
+                    <option value="<?php echo ($motorisation['id']); ?>">
+                        <?php echo ($motorisation['Motorisation']); ?>
                     </option>
                 <?php endforeach; ?>
             </select>

@@ -1,7 +1,7 @@
 <?php
+session_start();
 require_once 'Models/Bdd.php';
 require_once 'Models/Vehicule.php';
-session_start();
 
 $vehiculeModel = new Vehicule($pdo);
 
@@ -26,17 +26,17 @@ $vehicules = $vehiculeModel->getVehicules();
     <?php include 'header.php'; ?>
     <section id="vehicules">
         <?php if (isset($message)): ?>
-            <p><?php echo htmlspecialchars($message); ?></p>
+            <p><?php echo ($message); ?></p>
         <?php endif; ?>
         <?php if (!empty($vehicules)): ?>
             <ul>
                 <?php foreach ($vehicules as $vehicule): ?>
                     <li>
-                        <h2><?php echo htmlspecialchars($vehicule['marque']); ?></h2>
-                        <p>Modèle: <?php echo htmlspecialchars($vehicule['modele']); ?></p>
-                        <p>Motorisation: <?php echo htmlspecialchars($vehicule['motorisation']); ?></p>
-                        <p>Places: <?php echo htmlspecialchars($vehicule['places']); ?></p>
-                        <p>Prix Journalié: <?php echo htmlspecialchars($vehicule['prix']); ?></p>
+                        <h2><?php echo ($vehicule->marque); ?></h2>
+                        <p>Modèle: <?php echo ($vehicule['modele']); ?></p>
+                        <p>Motorisation: <?php echo ($vehicule['motorisation']); ?></p>
+                        <p>Places: <?php echo ($vehicule['places']); ?></p>
+                        <p>Prix Journalié: <?php echo ($vehicule['prix']); ?></p>
                         <?php if (isset($_SESSION['user']) && $_SESSION['user']['Pseudo'] === 'Admin'): ?>
                             <a href="modifier_vehicule.php?id=<?php echo $vehicule['id']; ?>">Modifier</a>
                             <form action="flotte.php" method="post" style="display:inline;">

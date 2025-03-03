@@ -1,6 +1,6 @@
 <?php
-require_once 'Models\Bdd.php';
 session_start();
+require_once 'Models\Bdd.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pseudo = $_POST['pseudo'];
@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $stmt = $pdo->prepare('SELECT * FROM comptes WHERE Pseudo = ? AND MDP = ?');
         $stmt->execute([$pseudo, $mdp]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user = $stmt->fetch();
 
         if ($user) {
             $_SESSION['user'] = $user;
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php include 'header.php'; ?>
     <section id="connexion">
         <?php if (isset($message)): ?>
-            <p><?php echo htmlspecialchars($message); ?></p>
+            <p><?php echo ($message); ?></p>
         <?php endif; ?>
         <form action="connexion.php" method="post">
             <label for="pseudo">Nom d'utilisateur:</label>

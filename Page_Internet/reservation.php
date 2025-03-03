@@ -1,6 +1,6 @@
 <?php
-require_once 'Models\Bdd.php';
 session_start();
+require_once 'Models\Bdd.php';
 ?>
 
 <!DOCTYPE html>
