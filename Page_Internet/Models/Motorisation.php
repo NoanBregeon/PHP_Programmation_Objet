@@ -25,8 +25,8 @@ class Motorisation {
     }
 
     public function obtenirToutes() {
-        $stmt = $this->conn->query("SELECT * FROM motorisations");
-        return $stmt->fetchAll();
+        $stmt = $this->pdo->query("SELECT v.*, m.nom AS motorisation_nom FROM vehicules v JOIN motorisation m ON v.motorisation_id = m.id");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>

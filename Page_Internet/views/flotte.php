@@ -28,9 +28,9 @@ $vehicules = $vehiculeController->obtenirVehicules();
         <?php else : ?>
             <?php foreach ($vehicules as $vehicule) : ?>
                 <div class="vehicule-card">
-                    <h2><?= htmlspecialchars($vehicule['marque'] . ' ' . $vehicule['Marques']) ?></h2>
-                    <p>Année : <?= htmlspecialchars($vehicule['annee']) ?></p>
-                    <p>Motorisation : <?= htmlspecialchars($vehicule['motorisation']) ?></p>
+                    <h2><?= ($vehicule['marque'] . ' ' . $vehicule['Marques']) ?></h2>
+                    <p>Année : <?= ($vehicule['annee']) ?></p>
+                    <p>Motorisation : <?= ($vehicules['motorisation_nom']) ?></p>
                     <a href="reservation.php?vehicule_id=<?= $vehicule['id']; ?>">Réserver</a>
                 </div>
             <?php endforeach; ?>

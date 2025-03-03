@@ -46,5 +46,10 @@ class Vehicule {
             return null;
         }
     }
+    public function obtenirTous() {
+        $stmt = $this->pdo->query("SELECT * FROM vehicules");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
 }
 ?>
