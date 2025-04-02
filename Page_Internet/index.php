@@ -20,7 +20,7 @@ define('BASE_PATH', __DIR__);
     <h2>Bienvenue sur notre site de location de véhicules 🚗</h2>
 
     <?php if (isset($_SESSION['user'])): ?>
-        <p class="success">Bonjour <strong><?= htmlspecialchars($_SESSION['user']['nom']) ?></strong> !</p>
+        <p class="success">Bonjour <strong><?= ($_SESSION['user']['nom']) ?></strong> !</p>
 
         <div class="actions">
             <?php if ($_SESSION['user']['role'] === 'admin'): ?>
