@@ -16,7 +16,7 @@ $reservations = $reservationController->getAllReservations();
 ?>
 <head>
     <meta charset="UTF-8">
-    <title>Accueil - Location de véhicules</title>
+    <title>Dashboard réservations - Location de véhicules</title>
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
 <?php include '..\Layouts\header.php'; ?>

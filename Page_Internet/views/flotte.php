@@ -11,7 +11,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Accueil - Location de véhicules</title>
+    <title>Véhicule de location - Location de véhicules</title>
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
 <body>
@@ -28,7 +28,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <div class="vehicules">
     <?php foreach ($vehicules as $v): ?>
-        <div class="vehicule">
+        <div class="card">
             <h3><?= ($v['nom']) ?> - <?= ($v['marque']) ?> <?= ($v['modele']) ?></h3>
             <?php if (!empty($v['image'])): ?>
                 <img src="<?= $v['image'] ?>" alt="Image de <?= ($v['nom']) ?>" width="200">

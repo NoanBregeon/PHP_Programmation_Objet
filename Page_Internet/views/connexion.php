@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <head>
     <meta charset="UTF-8">
-    <title>Accueil - Location de véhicules</title>
+    <title>Page de connexion - Location de véhicules</title>
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
 <?php include '..\Layouts\header.php'; ?>

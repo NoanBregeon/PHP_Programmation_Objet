@@ -12,7 +12,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
 ?>
 <head>
     <meta charset="UTF-8">
-    <title>Accueil - Location de véhicules</title>
+    <title>DashBoard Admin - Location de véhicules</title>
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
 <?php include '..\Layouts\header.php'; ?>
