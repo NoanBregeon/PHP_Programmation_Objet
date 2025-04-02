@@ -14,7 +14,7 @@ class AuthController {
         // Vérifier si l'utilisateur existe
         $stmt = $pdo->prepare("SELECT id, email, password FROM utilisateurs WHERE email = ?");
         $stmt->execute([$email]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user = $stmt->fetch();
         
         if (!$user) {
             return "Erreur : Aucun utilisateur trouvé avec cet email.";
