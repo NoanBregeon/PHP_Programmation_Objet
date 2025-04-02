@@ -28,8 +28,8 @@ class ReservationController {
 
     public function getReservationsByUser($id_utilisateur) {
         $stmt = $this->conn->prepare("SELECT r.*, v.nom as nom_vehicule FROM reservations r
-                                      JOIN vehicules v ON r.id_vehicule = v.id
-                                      WHERE r.id_utilisateur = ?");
+                                    JOIN vehicules v ON r.id_vehicule = v.id
+                                    WHERE r.id_utilisateur = ?");
         $stmt->execute([$id_utilisateur]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
