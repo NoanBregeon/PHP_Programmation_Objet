@@ -16,7 +16,7 @@ session_start();
     <section id="accueil">
         <h1>Bienvenue sur notre site de gestion de véhicules</h1>
         <?php if (isset($_SESSION['user_email'])): ?>
-            <p>Bienvenue, <?= htmlspecialchars($_SESSION['user_email']) ?> !</p>
+            <p>Bienvenue, <?= ($_SESSION['user_email']) ?> !</p>
         <?php else: ?>
             <p><a href="connexion.php">Connectez-vous</a> pour accéder à toutes les fonctionnalités.</p>
         <?php endif; ?>

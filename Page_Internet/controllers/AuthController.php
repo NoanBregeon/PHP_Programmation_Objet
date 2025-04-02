@@ -1,64 +1,69 @@
 <?php
-require_once '../models/Bdd.php';
+require_once '..\models\Bdd.php';
+session_start();
 
 class AuthController {
-    private $bdd;
 
-    public function __construct() {
-        $this->bdd = new Bdd();
-    }
+    public function login($email, $password) {
+        global $conn;
 
-    public function connexion($email, $password) {
-        $pdo = $this->bdd->getConnection();
-        
-        // Vérifier si l'utilisateur existe
-        $stmt = $pdo->prepare("SELECT id, email, password FROM utilisateurs WHERE email = ?");
+        if (empty($email) || empty($password)) {
+            $_SESSION['error'] = "Veuillez remplir tous les champs.";
+            return false;
+        }
+
+        $stmt = $conn->prepare("SELECT * FROM utilisateurs WHERE email = ?");
         $stmt->execute([$email]);
-        $user = $stmt->fetch();
-        
-        if (!$user) {
-            return "Erreur : Aucun utilisateur trouvé avec cet email.";
-        }
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Vérifier le mot de passe haché
-        if (!password_verify($password, $user['password'])) {
-            return "Erreur : Mot de passe incorrect.";
-        }
+        if ($user && password_verify($password, $user['mot_de_passe'])) {
+            $_SESSION['user'] = [
+                'id' => $user['id'],
+                'nom' => $user['nom'],
+                'email' => $user['email'],
+                'role' => $user['role'] ?? 'utilisateur'
+            ];
 
-        // Démarrer la session et enregistrer les informations de l'utilisateur
-        session_start();
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['user_email'] = $user['email'];
-        
-        return true;
+            return true;
+        } else {
+            $_SESSION['error'] = "Email ou mot de passe incorrect.";
+            return false;
+        }
     }
 
-    public function inscription($email, $password) {
-        $pdo = $this->bdd->getConnection();
-        
-        // Vérifier si l'email existe déjà
-        $stmt = $pdo->prepare("SELECT id FROM utilisateurs WHERE email = ?");
+    public function register($nom, $email, $mot_de_passe) {
+        global $conn;
+
+        if (empty($nom) || empty($email) || empty($mot_de_passe)) {
+            $_SESSION['error'] = "Veuillez remplir tous les champs.";
+            return false;
+        }
+
+        // Vérifie si l'utilisateur existe déjà
+        $stmt = $conn->prepare("SELECT id FROM utilisateurs WHERE email = ?");
         $stmt->execute([$email]);
         if ($stmt->fetch()) {
-            return "Erreur : Cet email est déjà utilisé.";
+            $_SESSION['error'] = "Cet email est déjà utilisé.";
+            return false;
         }
-        
-        // Hasher le mot de passe et insérer l'utilisateur
-        $hash = password_hash($password, PASSWORD_BCRYPT);
-        $stmt = $pdo->prepare("INSERT INTO utilisateurs (email, password) VALUES (?, ?)");
-        return $stmt->execute([$email, $hash]);
+
+        // Hash du mot de passe
+        $hashedPassword = password_hash($mot_de_passe, PASSWORD_DEFAULT);
+
+        // Insertion de l'utilisateur avec le rôle par défaut "utilisateur"
+        $stmt = $conn->prepare("INSERT INTO utilisateurs (nom, email, mot_de_passe, role) VALUES (?, ?, ?, 'utilisateur')");
+        if ($stmt->execute([$nom, $email, $hashedPassword])) {
+            $_SESSION['success'] = "Inscription réussie. Vous pouvez maintenant vous connecter.";
+            return true;
+        } else {
+            $_SESSION['error'] = "Erreur lors de l'inscription.";
+            return false;
+        }
     }
 
-    public function estConnecte() {
-        session_start();
-        return isset($_SESSION['user_id']);
-    }
-
-    public function deconnexion() {
-        session_start();
+    public function logout() {
         session_destroy();
-        header('Location: ../views/connexion.php');
+        header('Location: ../views/login.php');
         exit();
     }
 }
-?>

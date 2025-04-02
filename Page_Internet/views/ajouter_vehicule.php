@@ -1,64 +1,49 @@
 <?php
 require_once '../controllers/VehiculeController.php';
 require_once '../controllers/MotorisationController.php';
-// views/ajouter_vehicule.php
-require_once '../controllers/VehiculeController.php';
-require_once '../controllers/MotorisationController.php';
 
-$vehiculeController = new VehiculeController();
+$controller = new VehiculeController();
 $motorisationController = new MotorisationController();
-$motorisations = $motorisationController->obtenirMotorisations();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $donnees = [
-        'marque' => $_POST['marque'] ?? '',
-        'modele' => $_POST['modele'] ?? '',
-        'annee' => $_POST['annee'] ?? '',
-        'motorisation' => $_POST['motorisation'] ?? '' // Adaptation à la base
-    ];
-    
-    if (!empty($donnees['marque']) && !empty($donnees['modele']) && !empty($donnees['annee']) && !empty($donnees['motorisation'])) {
-        $vehiculeController->ajouterVehicule($donnees);
-        header('Location: flotte.php');
+    if ($controller->ajouterVehicule($_POST, $_FILES['image'])) {
+        header("Location: flotte.php");
         exit();
     }
 }
+
+$motorisations = $motorisationController->getAllMotorisations();
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un Véhicule</title>
-    <link rel="stylesheet" href="../public/styles.css">
-</head>
-<body>
-    <header>
-        <h1>Ajouter un Véhicule</h1>
-        <?php require_once 'header.php'; ?>
-    </header>
-    <section>
-        <form method="POST">
-            <label for="marque">Marque :</label>
-            <input type="text" id="marque" name="marque" required>
-            
-            <label for="modele">Modèle :</label>
-            <input type="text" id="modele" name="modele" required>
-            
-            <label for="annee">Année :</label>
-            <input type="number" id="annee" name="annee" required>
-            
-            <label for="motorisation">Motorisation :</label>
-            <select id="motorisation" name="motorisation" required>
-                <option value="">Sélectionner</option>
-                <?php foreach ($motorisations as $motorisation): ?>
-                    <option value="<?= $motorisation['id'] ?>"><?= htmlspecialchars($motorisation['nom']) ?></option>
-                <?php endforeach; ?>
-            </select>
-            
-            <button type="submit">Ajouter</button>
-        </form>
-    </section>
-</body>
-</html>
+<h2>Ajouter un véhicule</h2>
+<form method="POST" enctype="multipart/form-data">
+    <label>Nom :</label>
+    <input type="text" name="nom" required><br>
+
+    <label>Marque :</label>
+    <input type="text" name="marque" required><br>
+
+    <label>Modèle :</label>
+    <input type="text" name="modele" required><br>
+
+    <label>Motorisation :</label>
+    <select name="id_motorisation" required>
+        <?php foreach ($motorisations as $m) : ?>
+            <option value="<?= $m['id'] ?>"><?= ($m['nom']) ?></option>
+        <?php endforeach; ?>
+    </select><br>
+
+    <label>Prix journalier (€) :</label>
+    <input type="number" name="prix_journalier" step="0.01" required><br>
+
+    <label>Boîte automatique :</label>
+    <input type="checkbox" name="boite_auto"><br>
+
+    <label>Nombre de places :</label>
+    <input type="number" name="nb_places" min="1" max="9" value="4"><br>
+
+    <label>Image :</label>
+    <input type="file" name="image" accept="image/*" required><br><br>
+
+    <button type="submit">Ajouter</button>
+</form>

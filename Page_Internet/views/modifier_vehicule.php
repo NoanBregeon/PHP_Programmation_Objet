@@ -1,76 +1,59 @@
 <?php
-// views/modifier_vehicule.php
 require_once '../controllers/VehiculeController.php';
 require_once '../controllers/MotorisationController.php';
 
-$vehiculeController = new VehiculeController();
+$controller = new VehiculeController();
 $motorisationController = new MotorisationController();
-$motorisations = $motorisationController->obtenirMotorisations();
 
-$vehicule = null;
-if (isset($_GET['id'])) {
-    $vehicule = $vehiculeController->obtenirVehiculeParId($_GET['id']);
+if (!isset($_GET['id'])) {
+    echo "ID du véhicule manquant.";
+    exit();
 }
 
-if (!$vehicule) {
-    die("Véhicule introuvable.");
-}
+$id = $_GET['id'];
+$vehicule = $controller->getVehiculeById($id);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $donnees = [
-        'marque' => $_POST['marque'] ?? '',
-        'modele' => $_POST['modele'] ?? '',
-        'annee' => $_POST['annee'] ?? '',
-        'motorisation_id' => $_POST['motorisation_id'] ?? ''
-    ];
-    
-    if (!empty($donnees['marque']) && !empty($donnees['modele']) && !empty($donnees['annee']) && !empty($donnees['motorisation_id'])) {
-        $vehiculeController->modifierVehicule($_GET['id'], $donnees);
-        header('Location: flotte.php');
+    if ($controller->modifierVehicule($id, $_POST, $_FILES['image'])) {
+        header("Location: flotte.php");
         exit();
     }
 }
+
+$motorisations = $motorisationController->getAllMotorisations();
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier un Véhicule</title>
-    <link rel="stylesheet" href="../public/styles.css">
-</head>
-<body>
-    <header>
-        <h1>Modifier un Véhicule</h1>
-        <?php
-        // views/index.php
-        require_once 'header.php';
-        ?>
-    </header>
-    <section>
-        <form method="POST">
-            <label for="marque">Marque :</label>
-            <input type="text" id="marque" name="marque" value="<?= htmlspecialchars($vehicule['marque']) ?>" required>
-            
-            <label for="modele">Modèle :</label>
-            <input type="text" id="modele" name="modele" value="<?= htmlspecialchars($vehicule['modele']) ?>" required>
-            
-            <label for="annee">Année :</label>
-            <input type="number" id="annee" name="annee" value="<?= htmlspecialchars($vehicule['annee']) ?>" required>
-            
-            <label for="motorisation_id">Motorisation :</label>
-            <select id="motorisation_id" name="motorisation_id" required>
-                <option value="">Sélectionner</option>
-                <?php foreach ($motorisations as $motorisation): ?>
-                    <option value="<?= $motorisation['id'] ?>" <?= ($vehicule['motorisation_id'] == $motorisation['id']) ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($motorisation['nom']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-            
-            <button type="submit">Modifier</button>
-        </form>
-    </section>
-</body>
-</html>
+<h2>Modifier le véhicule</h2>
+<form method="POST" enctype="multipart/form-data">
+    <label>Nom :</label>
+    <input type="text" name="nom" value="<?= ($vehicule['nom']) ?>" required><br>
+
+    <label>Marque :</label>
+    <input type="text" name="marque" value="<?= ($vehicule['marque']) ?>" required><br>
+
+    <label>Modèle :</label>
+    <input type="text" name="modele" value="<?= ($vehicule['modele']) ?>" required><br>
+
+    <label>Motorisation :</label>
+    <select name="id_motorisation" required>
+        <?php foreach ($motorisations as $m) : ?>
+            <option value="<?= $m['id'] ?>" <?= $m['id'] == $vehicule['id_motorisation'] ? 'selected' : '' ?>>
+                <?= ($m['nom']) ?>
+            </option>
+        <?php endforeach; ?>
+    </select><br>
+
+    <label>Prix journalier (€) :</label>
+    <input type="number" name="prix_journalier" step="0.01" value="<?= $vehicule['prix_journalier'] ?>" required><br>
+
+    <label>Boîte automatique :</label>
+    <input type="checkbox" name="boite_auto" <?= $vehicule['boite_auto'] ? 'checked' : '' ?>><br>
+
+    <label>Nombre de places :</label>
+    <input type="number" name="nb_places" min="1" max="9" value="<?= $vehicule['nb_places'] ?>"><br>
+
+    <label>Changer l'image :</label>
+    <input type="file" name="image" accept="image/*"><br><br>
+
+    <button type="submit">Modifier</button>
+</form>

@@ -53,10 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </header>
     <section>
         <?php if (!empty($erreur)) : ?>
-            <p class="message error"> <?= htmlspecialchars($erreur) ?> </p>
+            <p class="message error"> <?= ($erreur) ?> </p>
         <?php endif; ?>
         <?php if (isset($message)): ?>
-            <p><?php echo htmlspecialchars($message); ?></p>
+            <p><?php echo ($message); ?></p>
         <?php endif; ?>
         <form method="POST">
             <label for="email">Email :</label>

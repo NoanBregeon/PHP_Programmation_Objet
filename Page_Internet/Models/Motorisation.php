@@ -5,28 +5,27 @@ require_once 'Bdd.php';
 class Motorisation {
     private $conn;
 
-    public function __construct($db) {
-        $this->conn = $db;
+    public function __construct() {
+        $this->conn = Bdd::getConnection();
     }
 
-    public function ajouter($donnees) {
-        $stmt = $this->conn->prepare("INSERT INTO motorisations (nom) VALUES (?)");
-        return $stmt->execute([$donnees['nom']]);
+    public function ajouter($nom) {
+        $stmt = $this->conn->prepare("INSERT INTO motorisation (nom) VALUES (?)");
+        return $stmt->execute([$nom]);
     }
 
-    public function modifier($id, $donnees) {
-        $stmt = $this->conn->prepare("UPDATE motorisations SET nom = ? WHERE id = ?");
-        return $stmt->execute([$donnees['nom'], $id]);
+    public function modifier($id, $nom) {
+        $stmt = $this->conn->prepare("UPDATE motorisation SET nom = ? WHERE id = ?");
+        return $stmt->execute([$nom, $id]);
     }
 
     public function supprimer($id) {
-        $stmt = $this->conn->prepare("DELETE FROM motorisations WHERE id = ?");
+        $stmt = $this->conn->prepare("DELETE FROM motorisation WHERE id = ?");
         return $stmt->execute([$id]);
     }
 
     public function obtenirToutes() {
-        $stmt = $this->pdo->query("SELECT v.*, m.nom AS motorisation_nom FROM vehicules v JOIN motorisation m ON v.motorisation_id = m.id");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->conn->query("SELECT * FROM motorisation");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-?>
