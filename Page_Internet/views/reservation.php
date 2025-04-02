@@ -1,54 +1,58 @@
 <?php
-require_once 'controllers/ReservationController.php';
-require_once 'controllers/VehiculeController.php';
-
+require_once('../controllers/ReservationController.php');
 session_start();
 
 if (!isset($_SESSION['user'])) {
-    $_SESSION['error'] = "Vous devez être connecté pour réserver un véhicule.";
-    header("Location: connexion.php");
+    header('Location: ../connexion.php');
     exit();
 }
-
-if (!isset($_GET['id_vehicule'])) {
-    echo "Aucun véhicule sélectionné.";
-    exit();
-}
-
-$id_vehicule = $_GET['id_vehicule'];
-
-$vehiculeController = new VehiculeController();
-$vehicule = $vehiculeController->getVehiculeById($id_vehicule);
 
 $reservationController = new ReservationController();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $donnees = [
-        'id_vehicule' => $id_vehicule,
-        'date_debut' => $_POST['date_debut'],
-        'date_fin' => $_POST['date_fin']
-    ];
+    $id_utilisateur = $_SESSION['user']['id'];
+    $id_vehicule = $_GET['id_vehicule'] ?? null;
+    $date_debut = $_POST['date_debut'] ?? null;
+    $date_fin = $_POST['date_fin'] ?? null;
 
-    if ($reservationController->reserver($donnees)) {
-        $_SESSION['success'] = "Réservation enregistrée avec succès !";
-        header("Location: flotte.php");
-        exit();
+    if ($id_vehicule && $date_debut && $date_fin) {
+        if ($reservationController->reserver($id_utilisateur, $id_vehicule, $date_debut, $date_fin)) {
+            $_SESSION['success'] = "Réservation effectuée avec succès.";
+            header("Location: mes_reservations.php");
+            exit();
+        }
+    } else {
+        $_SESSION['error'] = "Tous les champs sont requis.";
     }
 }
 ?>
 
-<h2>Réserver le véhicule : <?= ($vehicule['nom']) ?> (<?= ($vehicule['marque']) ?> <?= ($vehicule['modele']) ?>)</h2>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Réserver un véhicule</title>
+    <link rel="stylesheet" href="..\public\styles.css">
+</head>
+<body>
+<?php include '..\Layouts\header.php'; ?>
 
-<form method="POST">
+<h2>Réserver ce véhicule</h2>
+
+<?php if (isset($_SESSION['error'])): ?>
+    <p class="error"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></p>
+<?php endif; ?>
+
+<form method="post">
     <label>Date de début :</label>
-    <input type="date" name="date_debut" required><br>
+    <input type="date" name="date_debut" required><br><br>
 
     <label>Date de fin :</label>
     <input type="date" name="date_fin" required><br><br>
 
-    <button type="submit">Confirmer la réservation</button>
+    <button type="submit">Réserver</button>
 </form>
 
-<?php if (isset($_SESSION['error'])): ?>
-    <p style="color:red"><?= $_SESSION['error']; unset($_SESSION['error']); ?></p>
-<?php endif; ?>
+<?php include '..\Layouts\footer.php'; ?>
+</body>
+</html>

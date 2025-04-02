@@ -14,7 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $motorisations = $motorisationController->getAllMotorisations();
 ?>
-
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil - Location de véhicules</title>
+    <link rel="stylesheet" href="..\public\styles.css">
+</head>
+<?php include '..\Layouts\header.php'; ?>
 <h2>Ajouter un véhicule</h2>
 <form method="POST" enctype="multipart/form-data">
     <label>Nom :</label>
@@ -47,3 +52,4 @@ $motorisations = $motorisationController->getAllMotorisations();
 
     <button type="submit">Ajouter</button>
 </form>
+<?php include '..\Layouts\footer.php'; ?>

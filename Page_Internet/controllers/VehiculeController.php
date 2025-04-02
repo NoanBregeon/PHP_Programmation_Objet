@@ -1,27 +1,28 @@
 <?php
-require_once '..\models\Bdd.php';
+require_once '../models/Bdd.php';
 session_start();
 
 class VehiculeController {
+    private $conn;
+
+    public function __construct() {
+        $this->conn = Bdd::getConnection();
+    }
 
     public function getAllVehicules() {
-        global $conn;
-        $stmt = $conn->query("SELECT v.*, m.nom as motorisation 
+        $stmt = $this->conn->query("SELECT v.*, m.nom as motorisation 
                               FROM vehicules v 
                               JOIN motorisation m ON v.id_motorisation = m.id");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getVehiculeById($id) {
-        global $conn;
-        $stmt = $conn->prepare("SELECT * FROM vehicules WHERE id = ?");
+        $stmt = $this->conn->prepare("SELECT * FROM vehicules WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function ajouterVehicule($donnees, $fichierImage) {
-        global $conn;
-
         if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
             $_SESSION['error'] = "Accès refusé.";
             return false;
@@ -47,14 +48,12 @@ class VehiculeController {
             move_uploaded_file($fichierImage['tmp_name'], $imagePath);
         }
 
-        $stmt = $conn->prepare("INSERT INTO vehicules (nom, marque, modele, id_motorisation, prix_journalier, image, boite_auto, nb_places) 
+        $stmt = $this->conn->prepare("INSERT INTO vehicules (nom, marque, modele, id_motorisation, prix_journalier, image, boite_auto, nb_places) 
                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         return $stmt->execute([$nom, $marque, $modele, $id_motorisation, $prix_journalier, $imagePath, $boite_auto, $nb_places]);
     }
 
     public function modifierVehicule($id, $donnees, $fichierImage) {
-        global $conn;
-
         if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
             $_SESSION['error'] = "Accès refusé.";
             return false;
@@ -80,23 +79,21 @@ class VehiculeController {
         }
 
         if ($imagePath) {
-            $stmt = $conn->prepare("UPDATE vehicules SET nom = ?, marque = ?, modele = ?, id_motorisation = ?, prix_journalier = ?, boite_auto = ?, nb_places = ?, image = ? WHERE id = ?");
+            $stmt = $this->conn->prepare("UPDATE vehicules SET nom = ?, marque = ?, modele = ?, id_motorisation = ?, prix_journalier = ?, boite_auto = ?, nb_places = ?, image = ? WHERE id = ?");
             return $stmt->execute([$nom, $marque, $modele, $id_motorisation, $prix_journalier, $boite_auto, $nb_places, $imagePath, $id]);
         } else {
-            $stmt = $conn->prepare("UPDATE vehicules SET nom = ?, marque = ?, modele = ?, id_motorisation = ?, prix_journalier = ?, boite_auto = ?, nb_places = ? WHERE id = ?");
+            $stmt = $this->conn->prepare("UPDATE vehicules SET nom = ?, marque = ?, modele = ?, id_motorisation = ?, prix_journalier = ?, boite_auto = ?, nb_places = ? WHERE id = ?");
             return $stmt->execute([$nom, $marque, $modele, $id_motorisation, $prix_journalier, $boite_auto, $nb_places, $id]);
         }
     }
 
     public function supprimerVehicule($id) {
-        global $conn;
-
         if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
             $_SESSION['error'] = "Accès refusé.";
             return false;
         }
 
-        $stmt = $conn->prepare("DELETE FROM vehicules WHERE id = ?");
+        $stmt = $this->conn->prepare("DELETE FROM vehicules WHERE id = ?");
         return $stmt->execute([$id]);
     }
 }

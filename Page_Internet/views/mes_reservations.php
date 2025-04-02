@@ -1,6 +1,8 @@
 <?php
-require_once 'controllers/ReservationController.php';
-session_start();
+require_once '..\controllers\ReservationController.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (!isset($_SESSION['user'])) {
     $_SESSION['error'] = "Veuillez vous connecter pour accéder à vos réservations.";
@@ -11,7 +13,12 @@ if (!isset($_SESSION['user'])) {
 $reservationController = new ReservationController();
 $reservations = $reservationController->getReservationsByUser($_SESSION['user']['id']);
 ?>
-
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil - Location de véhicules</title>
+    <link rel="stylesheet" href="..\public\styles.css">
+</head>
+<?php include '..\Layouts\header.php'; ?>
 <h2>Mes réservations</h2>
 
 <?php if (empty($reservations)) : ?>
@@ -44,3 +51,4 @@ $reservations = $reservationController->getReservationsByUser($_SESSION['user'][
 <?php if (isset($_SESSION['error'])): ?>
     <p style="color: red"><?= $_SESSION['error']; unset($_SESSION['error']); ?></p>
 <?php endif; ?>
+<?php include '..\Layouts\footer.php'; ?>

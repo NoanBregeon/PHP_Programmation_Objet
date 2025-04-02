@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Sécurité : accès uniquement admin
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
@@ -8,7 +10,12 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
     exit();
 }
 ?>
-
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil - Location de véhicules</title>
+    <link rel="stylesheet" href="..\public\styles.css">
+</head>
+<?php include '..\Layouts\header.php'; ?>
 <h2>Tableau de bord administrateur</h2>
 
 <ul>
@@ -24,3 +31,4 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
 <?php if (isset($_SESSION['error'])): ?>
     <p style="color: red"><?= $_SESSION['error']; unset($_SESSION['error']); ?></p>
 <?php endif; ?>
+<?php include '..\Layouts\footer.php'; ?>

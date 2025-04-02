@@ -1,40 +1,26 @@
 <?php
-// controllers/MotorisationController.php
-require_once '../models/Bdd.php';
 require_once '../models/Motorisation.php';
 
 class MotorisationController {
-    private $bdd;
     private $motorisation;
 
     public function __construct() {
-        $this->bdd = new Bdd();
-        $this->motorisation = new Motorisation($this->bdd->getConnection());
+        $this->motorisation = new Motorisation();
+    }
+
+    public function getAllMotorisations() {
+        return $this->motorisation->obtenirToutes();
     }
 
     public function ajouterMotorisation($nom) {
-        if ($this->motorisation->existe($nom)) {
-            return "Erreur : Cette motorisation existe déjà.";
-        }
-        return $this->motorisation->ajouter(['nom' => $nom]);
+        return $this->motorisation->ajouter($nom);
     }
 
     public function modifierMotorisation($id, $nom) {
-        if (!$this->motorisation->obtenirParId($id)) {
-            return "Erreur : Motorisation introuvable.";
-        }
-        return $this->motorisation->modifier($id, ['nom' => $nom]);
+        return $this->motorisation->modifier($id, $nom);
     }
 
     public function supprimerMotorisation($id) {
-        if (!$this->motorisation->obtenirParId($id)) {
-            return "Erreur : Motorisation introuvable.";
-        }
         return $this->motorisation->supprimer($id);
     }
-
-    public function obtenirMotorisations() {
-        return $this->motorisation->obtenirToutes();
-    }
 }
-?>

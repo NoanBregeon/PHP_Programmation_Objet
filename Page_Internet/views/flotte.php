@@ -2,9 +2,20 @@
 require_once '..\controllers\VehiculeController.php';
 $vehiculeController = new VehiculeController();
 $vehicules = $vehiculeController->getAllVehicules();
-session_start();
-?>
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil - Location de véhicules</title>
+    <link rel="stylesheet" href="..\public\styles.css">
+</head>
+<body>
+<?php include '..\Layouts\header.php'; ?>
 <h2>Nos véhicules disponibles</h2>
 
 <?php if (isset($_SESSION['success'])): ?>
@@ -41,3 +52,6 @@ session_start();
         <hr>
     <?php endforeach; ?>
 </div>
+<?php include '..\Layouts\footer.php'; ?>
+</body>
+</html>

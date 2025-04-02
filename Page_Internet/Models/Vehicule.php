@@ -1,4 +1,5 @@
 <?php
+require_once 'Bdd.php';
 
 class Vehicule {
     private $pdo;
