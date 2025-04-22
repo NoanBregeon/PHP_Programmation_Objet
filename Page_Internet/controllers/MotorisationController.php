@@ -4,15 +4,21 @@ require_once __DIR__ . '/../models/Motorisation.php';
 
 class MotorisationController extends BaseController {
 
+    /**
+     * Affiche toutes les motorisations (admin uniquement).
+     */
     public function index() {
-        if (!$this->isLoggedIn()) {
-            $this->redirect('login.php');
+        if (!$this->isAdmin()) {
+            $this->redirect('index.php');
         }
 
         $motorisations = Motorisation::getAll();
         $this->render('motorisation/index', ['motorisations' => $motorisations]);
     }
 
+    /**
+     * Crée une nouvelle motorisation.
+     */
     public function create() {
         if (!$this->isAdmin()) {
             $this->redirect('index.php');
@@ -26,10 +32,16 @@ class MotorisationController extends BaseController {
         $this->render('motorisation/create');
     }
 
+    /**
+     * Supprime une motorisation.
+     *
+     * @param int $id
+     */
     public function delete($id) {
         if ($this->isAdmin()) {
             Motorisation::delete($id);
         }
+
         $this->redirect('index.php?controller=motorisation&action=index');
     }
 }

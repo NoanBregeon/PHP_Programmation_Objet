@@ -4,6 +4,9 @@ require_once __DIR__ . '/../models/User.php';
 
 class AuthController extends BaseController {
 
+    /**
+     * Affiche le formulaire de connexion ou traite le login.
+     */
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'] ?? '';
@@ -28,6 +31,9 @@ class AuthController extends BaseController {
         }
     }
 
+    /**
+     * Affiche le formulaire d'inscription ou traite l'inscription.
+     */
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nom = $_POST['nom'] ?? '';
@@ -47,6 +53,9 @@ class AuthController extends BaseController {
         }
     }
 
+    /**
+     * Déconnecte l'utilisateur et redirige vers la page d'accueil.
+     */
     public function logout() {
         session_destroy();
         $this->redirect('index.php');
