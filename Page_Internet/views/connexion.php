@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
 <body>
-<?php include '..\Layouts\header.php'; ?>
+<?php include '..\layouts\header.php'; ?>
 <h2>Connexion</h2>
 
 <form method="POST">
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php if (isset($_SESSION['error'])): ?>
     <p style="color:red"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
 <?php endif; ?>
-<?php include '..\Layouts\footer.php'; ?>
+<?php include '..\layouts\footer.php'; ?>
 </body>
 </html>
 

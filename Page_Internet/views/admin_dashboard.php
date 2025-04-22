@@ -13,7 +13,7 @@ require_once '../controllers/AdminController.php';
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
 <body>
-<?php include '..\Layouts\header.php'; ?>
+<?php include '..\layouts\header.php'; ?>
 <h2>Tableau de bord administrateur</h2>
 
 <ul>
@@ -29,6 +29,6 @@ require_once '../controllers/AdminController.php';
 <?php if (isset($_SESSION['error'])): ?>
     <p style="color: red"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
 <?php endif; ?>
-<?php include '..\Layouts\footer.php'; ?>
+<?php include '..\layouts\footer.php'; ?>
 </body>
 </html>

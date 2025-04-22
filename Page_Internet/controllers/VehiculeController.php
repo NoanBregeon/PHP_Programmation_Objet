@@ -6,11 +6,20 @@ class VehiculeController extends BaseController {
 
     public function index() {
         if (!$this->isLoggedIn()) {
-            $this->redirect('login.php');
+            $this->redirect('index.php?controller=auth&action=login');
         }
 
         $vehicules = Vehicule::getAll();
         $this->render('vehicule/index', ['vehicules' => $vehicules]);
+    }
+
+    public function flotte() {
+        if (!$this->isLoggedIn()) {
+            $this->redirect('index.php?controller=auth&action=login');
+        }
+
+        $vehicules = Vehicule::getAll();
+        $this->render('flotte', ['vehicules' => $vehicules]);
     }
 
     public function create() {

@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
     <body>
-        <?php include '../Layouts/header.php'; ?>
+        <?php include '../layouts/header.php'; ?>
             <h2>Réserver ce véhicule</h2>
             <?php if (isset($_SESSION['error'])): ?>
                 <p class="error"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
@@ -48,6 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="date" name="date_fin" required><br><br>
                 <button type="submit">Réserver</button>
             </form>
-        <?php include '../Layouts/footer.php'; ?>
+        <?php include '../layouts/footer.php'; ?>
     </body>
 </html>

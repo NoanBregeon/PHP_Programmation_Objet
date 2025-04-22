@@ -1,55 +1,21 @@
-<?php
-require_once '..\controllers\VehiculeController.php';
-$vehiculeController = new VehiculeController();
-$vehicules = $vehiculeController->getAllVehicules();
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Véhicules de location - Location de véhicules</title>
-    <link rel="stylesheet" href="..\public\styles.css">
-</head>
-<body>
-<?php include '..\Layouts\header.php'; ?>
-<h2>Nos véhicules disponibles</h2>
+<?php include 'layouts/header.php'; ?>
 
-<?php if (isset($_SESSION['success'])): ?>
-    <p style="color: green"><?= htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></p>
-<?php endif; ?>
-<?php if (isset($_SESSION['error'])): ?>
-    <p style="color: red"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
-<?php endif; ?>
+<main>
+    <h2>🚗 Véhicules disponibles</h2>
 
-<div class="vehicules">
-    <?php foreach ($vehicules as $v): ?>
-        <div class="card">
-            <h3><?= htmlspecialchars($v['nom']) ?> - <?= htmlspecialchars($v['marque']) ?> <?= htmlspecialchars($v['modele']) ?></h3>
-            <?php if (!empty($v['image'])): ?>
-                <img src="<?= htmlspecialchars($v['image']) ?>" alt="Image de <?= htmlspecialchars($v['nom']) ?>" width="200">
-            <?php endif; ?>
-            <p>Motorisation : <?= htmlspecialchars($v['motorisation']) ?></p>
-            <p>Prix / jour : <?= number_format($v['prix_journalier'], 2) ?> €</p>
-            <p>Boîte automatique : <?= $v['boite_auto'] ? 'Oui' : 'Non' ?></p>
-            <p>Nombre de places : <?= $v['nb_places'] ?></p>
-
-            <?php if (isset($_SESSION['user'])): ?>
-                <?php if ($_SESSION['user']['role'] === 'admin'): ?>
-                    <a href="modifier_vehicule.php?id=<?= $v['id'] ?>">Modifier</a> |
-                    <a href="supprimer_vehicule.php?id=<?= $v['id'] ?>" onclick="return confirm('Supprimer ce véhicule ?');">Supprimer</a>
-                <?php else: ?>
-                    <a href="reservation.php?id_vehicule=<?= $v['id'] ?>">Réserver</a>
-                <?php endif; ?>
-            <?php else: ?>
-                <p><a href="connexion.php">Connectez-vous pour réserver</a></p>
-            <?php endif; ?>
+    <?php if (!empty($vehicules)): ?>
+        <div class="vehicule-liste">
+            <?php foreach ($vehicules as $v): ?>
+                <div class="vehicule-card">
+                    <h3><?= htmlspecialchars($v['marque']) ?> <?= htmlspecialchars($v['modele']) ?></h3>
+                    <p><strong>Année :</strong> <?= $v['annee'] ?></p>
+                    <p><strong>Prix :</strong> <?= $v['prix'] ?> € / jour</p>
+                </div>
+            <?php endforeach; ?>
         </div>
-        <hr>
-    <?php endforeach; ?>
-</div>
-<?php include '..\Layouts\footer.php'; ?>
-</body>
-</html>
+    <?php else: ?>
+        <p>Aucun véhicule disponible pour le moment.</p>
+    <?php endif; ?>
+</main>
+
+<?php include 'layouts/footer.php'; ?>

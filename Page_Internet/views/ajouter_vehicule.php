@@ -22,7 +22,7 @@ $motorisations = $motorisationController->getAllMotorisations();
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
 <body>
-<?php include '..\Layouts\header.php'; ?>
+<?php include '..\layouts\header.php'; ?>
 <h2>Ajouter un véhicule</h2>
 <form method="POST" enctype="multipart/form-data">
     <label>Nom :</label>
@@ -55,6 +55,6 @@ $motorisations = $motorisationController->getAllMotorisations();
 
     <button type="submit">Ajouter</button>
 </form>
-<?php include '..\Layouts\footer.php'; ?>
+<?php include '..\layouts\footer.php'; ?>
 </body>
 </html>

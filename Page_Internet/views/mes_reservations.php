@@ -30,7 +30,7 @@ foreach ($reservations as $r) {
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
     <body>
-    <?php include '../Layouts/header.php'; ?>
+    <?php include '../layouts/header.php'; ?>
     <h2>Mes réservations à venir / en cours</h2>
     <?php if (!empty($active)): ?>
     <table>
@@ -71,6 +71,6 @@ foreach ($reservations as $r) {
     <?php else: ?>
         <p>Vous n'avez aucune réservation expirée.</p>
     <?php endif; ?>
-    <?php include '../Layouts/footer.php'; ?>
+    <?php include '../layouts/footer.php'; ?>
     </body>
 </html>
