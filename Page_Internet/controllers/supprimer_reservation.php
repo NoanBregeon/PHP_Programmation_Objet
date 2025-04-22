@@ -1,19 +1,23 @@
 <?php
-require_once 'ReservationController.php';
+require_once '../controllers/ReservationController.php';
 session_start();
 
-$controller = new ReservationController();
-$controller->checkUserSession();
-
-$id = $_GET['id'] ?? null;
-$id_utilisateur = $_SESSION['user']['id'];
-
-if ($id && $controller->supprimerReservationParId($id, $id_utilisateur)) {
-    $_SESSION['success'] = "Réservation supprimée avec succès.";
-} else {
-    $_SESSION['error'] = $controller->getError() ?? "Erreur lors de la suppression de la réservation.";
+// Vérification des droits d'accès
+if (!isset($_SESSION['user']) || !isset($_GET['id'])) {
+    header('Location: mes_reservations.php');
+    exit();
 }
 
-header('Location: ../views/mes_reservations.php');
+$id = $_GET['id'];
+$id_utilisateur = $_SESSION['user']['id'];
+$controller = new ReservationController();
+
+if ($controller->supprimerReservationParId($id, $id_utilisateur)) {
+    $_SESSION['success'] = "Réservation supprimée avec succès.";
+} else {
+    $_SESSION['error'] = "Erreur lors de la suppression de la réservation.";
+}
+
+header('Location: mes_reservations.php');
 exit();
 ?>

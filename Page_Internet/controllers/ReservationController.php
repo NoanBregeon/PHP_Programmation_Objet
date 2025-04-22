@@ -28,6 +28,37 @@ class ReservationController extends BaseController {
     }
 
     /**
+     * Récupère les réservations d'un utilisateur.
+     */
+    public function getReservationsByUser($id_utilisateur) {
+        try {
+            $stmt = $this->conn->prepare("SELECT r.*, v.nom as nom_vehicule FROM reservations r
+                                        JOIN vehicules v ON r.id_vehicule = v.id
+                                        WHERE r.id_utilisateur = ?");
+            $stmt->execute([$id_utilisateur]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            $this->setError("Erreur lors de la récupération des réservations : " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Récupère toutes les réservations.
+     */
+    public function getAllReservations() {
+        try {
+            $stmt = $this->conn->query("SELECT r.*, u.nom as nom_utilisateur, v.nom as nom_vehicule FROM reservations r
+                                        JOIN utilisateurs u ON r.id_utilisateur = u.id
+                                        JOIN vehicules v ON r.id_vehicule = v.id");
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            $this->setError("Erreur lors de la récupération des réservations : " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
      * Supprime une réservation par son ID et l'utilisateur associé.
      */
     public function supprimerReservationParId($id, $id_utilisateur) {
