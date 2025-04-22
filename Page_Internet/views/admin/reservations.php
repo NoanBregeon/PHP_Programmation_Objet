@@ -1,10 +1,10 @@
 <?php
-require_once '..\controllers\ReservationController.php';
+require_once __DIR__ . '/../../controllers/AdminController.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once '../controllers/AdminController.php';
 $reservationController = new ReservationController();
 $reservations = $reservationController->getAllReservations();
 ?>

@@ -1,5 +1,5 @@
 <?php
-require_once '../controllers/AuthController.php';
+// require_once '../controllers/AuthController.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -18,10 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Page de connexion - Location de véhicules</title>
-    <link rel="stylesheet" href="..\public\styles.css">
+    <link rel="stylesheet" href="..\..\public\styles.css">
 </head>
 <body>
-<?php include '..\layouts\header.php'; ?>
+<?php include  __DIR__ . '/../../layouts/header.php';?>
 <h2>Connexion</h2>
 
 <form method="POST">
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php if (isset($_SESSION['error'])): ?>
     <p style="color:red"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
 <?php endif; ?>
-<?php include '..\layouts\footer.php'; ?>
+<?php include __DIR__ . '/../../layouts/footer.php'; ?>
 </body>
 </html>
 

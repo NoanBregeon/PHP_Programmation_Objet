@@ -23,10 +23,13 @@ class VehiculeController extends BaseController {
         if (!$this->isLoggedIn()) {
             $this->redirect('index.php?controller=auth&action=login');
         }
-
-        $vehicules = Vehicule::getAll();
-        $this->render('flotte', ['vehicules' => $vehicules]);
+    
+        $sort = $_GET['sort'] ?? ''; // 👈 tri récupéré depuis l'URL
+        $vehicules = Vehicule::getAll($sort); // 👈 trié dynamiquement
+    
+        $this->render('vehicules/index', ['vehicules' => $vehicules]);
     }
+    
 
     /**
      * Formulaire d'ajout d'un véhicule + traitement du POST.
@@ -43,35 +46,32 @@ class VehiculeController extends BaseController {
 
         $this->render('vehicule/create');
     }
-
-    /**
-     * Supprime un véhicule.
-     *
-     * @param int $id
-     */
+    public function modifierVehicule($id, $data, $file = null){
+        if (!$this->isAdmin()) {
+            $_SESSION['error'] = "Action non autorisée.";
+            $this->redirect('index.php?controller=vehicule&action=flotte');
+        }
+    
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            Vehicule::update($id, $_POST);
+            $_SESSION['success'] = "Véhicule modifié avec succès.";
+            $this->redirect('index.php?controller=vehicule&action=flotte');
+        } else {
+            $vehicule = Vehicule::findById($id);
+            $this->render('vehicules/edit', ['vehicule' => $vehicule]);
+        }
+    }
+    
+    
     public function delete($id) {
         if ($this->isAdmin()) {
             Vehicule::delete($id);
+            $_SESSION['success'] = "Véhicule supprimé avec succès.";
+        } else {
+            $_SESSION['error'] = "Action non autorisée.";
         }
-        $this->redirect('index.php?controller=vehicule&action=index');
+    
+        $this->redirect('index.php?controller=vehicule&action=flotte');
     }
-
-    /**
-     * Formulaire de modification d’un véhicule + traitement du POST.
-     *
-     * @param int $id
-     */
-    public function update($id) {
-        if (!$this->isAdmin()) {
-            $this->redirect('index.php');
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            Vehicule::update($id, $_POST);
-            $this->redirect('index.php?controller=vehicule&action=index');
-        }
-
-        $vehicule = Vehicule::findById($id);
-        $this->render('vehicule/edit', ['vehicule' => $vehicule]);
-    }
+        
 }

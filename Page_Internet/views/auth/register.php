@@ -1,5 +1,5 @@
 <?php
-require_once '..\controllers\AuthController.php';
+// require_once '..\controllers\AuthController.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
     <body>
-    <?php include '..\layouts\header.php'; ?>
+    <?php include __DIR__ . '/../../layouts/header.php'; ?>
     <h2>Inscription</h2>
 
     <form method="POST">
@@ -43,6 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php if (isset($_SESSION['success'])): ?>
         <p style="color:green"><?= htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></p>
     <?php endif; ?>
-    <?php include '..\layouts\footer.php'; ?>
+    <?php include __DIR__ . '/../../layouts/footer.php'; ?>
     </body>
 </html>

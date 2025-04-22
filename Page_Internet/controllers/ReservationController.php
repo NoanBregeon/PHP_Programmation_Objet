@@ -23,11 +23,29 @@ class ReservationController extends BaseController {
         if (!$this->isLoggedIn()) {
             $this->redirect('index.php?controller=auth&action=login');
         }
-
+    
         $userId = $_SESSION['user']['id'];
         $reservations = Reservation::getByUserId($userId);
-        $this->render('reservation/mes', ['reservations' => $reservations]);
+    
+        $today = date('Y-m-d');
+        $active = [];
+        $expired = [];
+    
+        foreach ($reservations as $r) {
+            if ($r['date_fin'] < $today) {
+                $expired[] = $r;
+            } else {
+                $active[] = $r;
+            }
+        }
+    
+        // ✅ Maintenant les variables existent bien ici
+        $this->render('reservation/mes', [
+            'active' => $active,
+            'expired' => $expired
+        ]);
     }
+    
 
     /**
      * Crée une nouvelle réservation.

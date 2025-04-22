@@ -2,23 +2,22 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-require_once '../controllers/AdminController.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>DashBoard Admin - Location de véhicules</title>
-    <link rel="stylesheet" href="..\public\styles.css">
+    <link rel="stylesheet" href="../public/styles.css">
 </head>
 <body>
-<?php include '..\layouts\header.php'; ?>
+<?php include __DIR__ . '/../../layouts/header.php'; ?>
+
 <h2>Tableau de bord administrateur</h2>
 
 <ul>
     <li><a href="ajouter_vehicule.php">➕ Ajouter un véhicule</a></li>
-    <li><a href="flotte.php">🚗 Gérer les véhicules (flotte)</a></li>
+    <li><a href="index.php?controller=vehicule&action=flotte">🚗 Gérer les véhicules (flotte)</a></li>
     <li><a href="admin_reservations.php">📅 Voir toutes les réservations</a></li>
 </ul>
 
@@ -29,6 +28,7 @@ require_once '../controllers/AdminController.php';
 <?php if (isset($_SESSION['error'])): ?>
     <p style="color: red"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
 <?php endif; ?>
-<?php include '..\layouts\footer.php'; ?>
+
+<?php include __DIR__ . '/../../layouts/footer.php'; ?>
 </body>
 </html>

@@ -1,8 +1,11 @@
 <?php
-require_once '../controllers/VehiculeController.php';
-require_once '../controllers/MotorisationController.php';
+require_once __DIR__ . '/../../models/Vehicule.php';
+require_once __DIR__ . '/../../controllers/MotorisationController.php';
 
-$controller = new VehiculeController();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $motorisationController = new MotorisationController();
 
 if (!isset($_GET['id'])) {
@@ -12,53 +15,18 @@ if (!isset($_GET['id'])) {
 }
 
 $id = $_GET['id'];
-$vehicule = $controller->getVehiculeById($id);
+$vehicule = Vehicule::findById($id);
+
+if (!$vehicule) {
+    $_SESSION['error'] = "Véhicule introuvable.";
+    header("Location: flotte.php");
+    exit();
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if ($controller->modifierVehicule($id, $_POST, $_FILES['image'])) {
-        $_SESSION['success'] = "Véhicule modifié avec succès.";
-        header("Location: flotte.php");
-        exit();
-    }
+    // Met ici ton code de modification
+    // (soit en appelant une méthode static dans Vehicule ou via ton controller)
 }
 
 $motorisations = $motorisationController->getAllMotorisations();
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Modification véhicule - Location de véhicules</title>
-    <link rel="stylesheet" href="..\public\styles.css">
-</head>
-    <body>
-        <?php include '..\layouts\header.php'; ?>
-        <h2>Modifier le véhicule</h2>
-        <form method="POST" enctype="multipart/form-data">
-            <label>Nom :</label>
-            <input type="text" name="nom" value="<?= htmlspecialchars($vehicule['nom']) ?>" required><br>
-            <label>Marque :</label>
-            <input type="text" name="marque" value="<?= htmlspecialchars($vehicule['marque']) ?>" required><br>
-            <label>Modèle :</label>
-            <input type="text" name="modele" value="<?= htmlspecialchars($vehicule['modele']) ?>" required><br>
-            <label>Motorisation :</label>
-            <select name="id_motorisation" required>
-                <?php foreach ($motorisations as $m) : ?>
-                    <option value="<?= $m['id'] ?>" <?= $m['id'] == $vehicule['id_motorisation'] ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($m['nom']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select><br>
-            <label>Prix journalier (€) :</label>
-            <input type="number" name="prix_journalier" step="0.01" value="<?= htmlspecialchars($vehicule['prix_journalier']) ?>" required><br>
-            <label>Boîte automatique :</label>
-            <input type="checkbox" name="boite_auto" <?= $vehicule['boite_auto'] ? 'checked' : '' ?>><br>
-            <label>Nombre de places :</label>
-            <input type="number" name="nb_places" min="1" max="9" value="<?= htmlspecialchars($vehicule['nb_places']) ?>"><br>
-            <label>Changer l'image :</label>
-            <input type="file" name="image" accept="image/*"><br><br>
-            <button type="submit">Modifier</button>
-        </form>
-        <?php include '../layouts/footer.php'; ?>
-    </body>
-</html>

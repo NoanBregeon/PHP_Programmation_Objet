@@ -19,7 +19,12 @@ if (file_exists($controllerFile)) {
 
     // Vérification de la méthode/action
     if (method_exists($controller, $action)) {
-        $controller->$action();
+        if (isset($_GET['id'])) {
+            $controller->$action($_GET['id']);
+        } else {
+            $controller->$action();
+        }
+        
     } else {
         http_response_code(404);
         include BASE_PATH . '/views/404.php';
@@ -28,3 +33,7 @@ if (file_exists($controllerFile)) {
     http_response_code(404);
     include BASE_PATH . '/views/404.php';
 }
+?>
+<head>
+    <link rel="stylesheet" href="public/styles.css">
+</head>
