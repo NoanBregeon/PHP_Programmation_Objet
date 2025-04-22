@@ -1,59 +1,35 @@
 <?php
-require_once '../models/Motorisation.php';
+require_once 'BaseController.php';
+require_once __DIR__ . '/../models/Motorisation.php';
 
-class MotorisationController {
-    private $motorisation;
+class MotorisationController extends BaseController {
 
-    public function __construct() {
-        $this->motorisation = new Motorisation();
+    public function index() {
+        if (!$this->isLoggedIn()) {
+            $this->redirect('login.php');
+        }
+
+        $motorisations = Motorisation::getAll();
+        $this->render('motorisation/index', ['motorisations' => $motorisations]);
     }
 
-    /**
-     * Récupère toutes les motorisations.
-     */
-    public function getAllMotorisations() {
-        try {
-            return $this->motorisation->obtenirToutes();
-        } catch (Exception $e) {
-            $_SESSION['error'] = $e->getMessage();
-            return [];
+    public function create() {
+        if (!$this->isAdmin()) {
+            $this->redirect('index.php');
         }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            Motorisation::create($_POST);
+            $this->redirect('index.php?controller=motorisation&action=index');
+        }
+
+        $this->render('motorisation/create');
     }
 
-    /**
-     * Ajoute une nouvelle motorisation.
-     */
-    public function ajouterMotorisation($nom) {
-        try {
-            return $this->motorisation->ajouter($nom);
-        } catch (Exception $e) {
-            $_SESSION['error'] = $e->getMessage();
-            return false;
+    public function delete($id) {
+        if ($this->isAdmin()) {
+            Motorisation::delete($id);
         }
-    }
-
-    /**
-     * Modifie une motorisation existante.
-     */
-    public function modifierMotorisation($id, $nom) {
-        try {
-            return $this->motorisation->modifier($id, $nom);
-        } catch (Exception $e) {
-            $_SESSION['error'] = $e->getMessage();
-            return false;
-        }
-    }
-
-    /**
-     * Supprime une motorisation.
-     */
-    public function supprimerMotorisation($id) {
-        try {
-            return $this->motorisation->supprimer($id);
-        } catch (Exception $e) {
-            $_SESSION['error'] = $e->getMessage();
-            return false;
-        }
+        $this->redirect('index.php?controller=motorisation&action=index');
     }
 }
-?>
