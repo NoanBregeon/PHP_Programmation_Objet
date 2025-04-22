@@ -5,13 +5,12 @@ $vehicules = $vehiculeController->getAllVehicules();
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Véhicule de location - Location de véhicules</title>
+    <title>Véhicules de location - Location de véhicules</title>
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
 <body>
@@ -19,21 +18,21 @@ if (session_status() === PHP_SESSION_NONE) {
 <h2>Nos véhicules disponibles</h2>
 
 <?php if (isset($_SESSION['success'])): ?>
-    <p style="color: green"><?= $_SESSION['success']; unset($_SESSION['success']); ?></p>
+    <p style="color: green"><?= htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></p>
 <?php endif; ?>
 
 <?php if (isset($_SESSION['error'])): ?>
-    <p style="color: red"><?= $_SESSION['error']; unset($_SESSION['error']); ?></p>
+    <p style="color: red"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
 <?php endif; ?>
 
 <div class="vehicules">
     <?php foreach ($vehicules as $v): ?>
         <div class="card">
-            <h3><?= ($v['nom']) ?> - <?= ($v['marque']) ?> <?= ($v['modele']) ?></h3>
+            <h3><?= htmlspecialchars($v['nom']) ?> - <?= htmlspecialchars($v['marque']) ?> <?= htmlspecialchars($v['modele']) ?></h3>
             <?php if (!empty($v['image'])): ?>
-                <img src="<?= $v['image'] ?>" alt="Image de <?= ($v['nom']) ?>" width="200">
+                <img src="<?= htmlspecialchars($v['image']) ?>" alt="Image de <?= htmlspecialchars($v['nom']) ?>" width="200">
             <?php endif; ?>
-            <p>Motorisation : <?= ($v['motorisation']) ?></p>
+            <p>Motorisation : <?= htmlspecialchars($v['motorisation']) ?></p>
             <p>Prix / jour : <?= number_format($v['prix_journalier'], 2) ?> €</p>
             <p>Boîte automatique : <?= $v['boite_auto'] ? 'Oui' : 'Non' ?></p>
             <p>Nombre de places : <?= $v['nb_places'] ?></p>

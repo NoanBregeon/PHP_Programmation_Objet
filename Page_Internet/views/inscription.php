@@ -13,11 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+<!DOCTYPE html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Inscription - Location de véhicules</title>
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
+<body>
 <?php include '..\Layouts\header.php'; ?>
 <h2>Inscription</h2>
 
@@ -35,9 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </form>
 
 <?php if (isset($_SESSION['error'])): ?>
-    <p style="color:red"><?= $_SESSION['error']; unset($_SESSION['error']); ?></p>
+    <p style="color:red"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
 <?php endif; ?>
 <?php if (isset($_SESSION['success'])): ?>
-    <p style="color:green"><?= $_SESSION['success']; unset($_SESSION['success']); ?></p>
+    <p style="color:green"><?= htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></p>
 <?php endif; ?>
 <?php include '..\Layouts\footer.php'; ?>
+</body>
+</html>

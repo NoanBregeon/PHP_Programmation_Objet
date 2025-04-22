@@ -8,19 +8,52 @@ class MotorisationController {
         $this->motorisation = new Motorisation();
     }
 
+    /**
+     * Récupère toutes les motorisations.
+     */
     public function getAllMotorisations() {
-        return $this->motorisation->obtenirToutes();
+        try {
+            return $this->motorisation->obtenirToutes();
+        } catch (Exception $e) {
+            $_SESSION['error'] = $e->getMessage();
+            return [];
+        }
     }
 
+    /**
+     * Ajoute une nouvelle motorisation.
+     */
     public function ajouterMotorisation($nom) {
-        return $this->motorisation->ajouter($nom);
+        try {
+            return $this->motorisation->ajouter($nom);
+        } catch (Exception $e) {
+            $_SESSION['error'] = $e->getMessage();
+            return false;
+        }
     }
 
+    /**
+     * Modifie une motorisation existante.
+     */
     public function modifierMotorisation($id, $nom) {
-        return $this->motorisation->modifier($id, $nom);
+        try {
+            return $this->motorisation->modifier($id, $nom);
+        } catch (Exception $e) {
+            $_SESSION['error'] = $e->getMessage();
+            return false;
+        }
     }
 
+    /**
+     * Supprime une motorisation.
+     */
     public function supprimerMotorisation($id) {
-        return $this->motorisation->supprimer($id);
+        try {
+            return $this->motorisation->supprimer($id);
+        } catch (Exception $e) {
+            $_SESSION['error'] = $e->getMessage();
+            return false;
+        }
     }
 }
+?>

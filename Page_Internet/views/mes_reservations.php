@@ -21,14 +21,16 @@ foreach ($reservations as $r) {
         $active[] = $r;
     }
 }
-
-include '../Layouts/header.php';
 ?>
+<!DOCTYPE html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Mes réservations - Location de véhicules</title>
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
+<body>
+<?php include '../Layouts/header.php'; ?>
 
 <h2>Mes réservations à venir / en cours</h2>
 <?php if (!empty($active)): ?>
@@ -41,9 +43,9 @@ include '../Layouts/header.php';
     </tr>
     <?php foreach ($active as $r): ?>
         <tr>
-            <td><?= ($r['nom_vehicule']) ?></td>
-            <td><?= ($r['date_debut']) ?></td>
-            <td><?= ($r['date_fin']) ?></td>
+            <td><?= htmlspecialchars($r['nom_vehicule']) ?></td>
+            <td><?= htmlspecialchars($r['date_debut']) ?></td>
+            <td><?= htmlspecialchars($r['date_fin']) ?></td>
             <td><a href="supprimer_reservation.php?id=<?= $r['id'] ?>" class="btn-supprimer">🗑️ Supprimer</a></td>
         </tr>
     <?php endforeach; ?>
@@ -62,9 +64,9 @@ include '../Layouts/header.php';
     </tr>
     <?php foreach ($expired as $r): ?>
         <tr>
-            <td><?= ($r['nom_vehicule']) ?></td>
-            <td><?= ($r['date_debut']) ?></td>
-            <td><?= ($r['date_fin']) ?></td>
+            <td><?= htmlspecialchars($r['nom_vehicule']) ?></td>
+            <td><?= htmlspecialchars($r['date_debut']) ?></td>
+            <td><?= htmlspecialchars($r['date_fin']) ?></td>
         </tr>
     <?php endforeach; ?>
 </table>
@@ -73,3 +75,5 @@ include '../Layouts/header.php';
 <?php endif; ?>
 
 <?php include '../Layouts/footer.php'; ?>
+</body>
+</html>

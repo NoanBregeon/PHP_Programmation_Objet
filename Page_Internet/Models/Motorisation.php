@@ -1,5 +1,4 @@
 <?php
-// models/Motorisation.php
 require_once 'Bdd.php';
 
 class Motorisation {
@@ -9,23 +8,52 @@ class Motorisation {
         $this->conn = Bdd::getConnection();
     }
 
+    /**
+     * Ajoute une nouvelle motorisation.
+     */
     public function ajouter($nom) {
-        $stmt = $this->conn->prepare("INSERT INTO motorisation (nom) VALUES (?)");
-        return $stmt->execute([$nom]);
+        try {
+            $stmt = $this->conn->prepare("INSERT INTO motorisation (nom) VALUES (?)");
+            return $stmt->execute([$nom]);
+        } catch (PDOException $e) {
+            throw new Exception("Erreur lors de l'ajout de la motorisation : " . $e->getMessage());
+        }
     }
 
+    /**
+     * Modifie une motorisation existante.
+     */
     public function modifier($id, $nom) {
-        $stmt = $this->conn->prepare("UPDATE motorisation SET nom = ? WHERE id = ?");
-        return $stmt->execute([$nom, $id]);
+        try {
+            $stmt = $this->conn->prepare("UPDATE motorisation SET nom = ? WHERE id = ?");
+            return $stmt->execute([$nom, $id]);
+        } catch (PDOException $e) {
+            throw new Exception("Erreur lors de la modification de la motorisation : " . $e->getMessage());
+        }
     }
 
+    /**
+     * Supprime une motorisation.
+     */
     public function supprimer($id) {
-        $stmt = $this->conn->prepare("DELETE FROM motorisation WHERE id = ?");
-        return $stmt->execute([$id]);
+        try {
+            $stmt = $this->conn->prepare("DELETE FROM motorisation WHERE id = ?");
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            throw new Exception("Erreur lors de la suppression de la motorisation : " . $e->getMessage());
+        }
     }
 
+    /**
+     * Récupère toutes les motorisations.
+     */
     public function obtenirToutes() {
-        $stmt = $this->conn->query("SELECT * FROM motorisation");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $stmt = $this->conn->query("SELECT * FROM motorisation");
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception("Erreur lors de la récupération des motorisations : " . $e->getMessage());
+        }
     }
 }
+?>

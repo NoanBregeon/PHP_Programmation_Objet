@@ -13,11 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+<!DOCTYPE html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Page de connexion - Location de véhicules</title>
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
+<body>
 <?php include '..\Layouts\header.php'; ?>
 <h2>Connexion</h2>
 
@@ -32,7 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </form>
 
 <?php if (isset($_SESSION['error'])): ?>
-    <p style="color:red"><?= $_SESSION['error']; unset($_SESSION['error']); ?></p>
+    <p style="color:red"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
 <?php endif; ?>
 <?php include '..\Layouts\footer.php'; ?>
+</body>
+</html>
 

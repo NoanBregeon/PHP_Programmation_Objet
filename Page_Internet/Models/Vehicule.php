@@ -2,55 +2,74 @@
 require_once 'Bdd.php';
 
 class Vehicule {
-    private $pdo;
+    private $conn;
 
-    public function __construct($pdo) {
-        $this->pdo = $pdo;
+    public function __construct() {
+        $this->conn = Bdd::getConnection();
     }
 
+    /**
+     * Ajoute un nouveau véhicule.
+     */
     public function ajouterVehicule($marque, $modele, $bva, $places, $motorisation_id, $radio, $climatisation, $bluetooth, $regulateur_vitesse, $pack_electrique, $gps, $prix) {
         try {
-            $stmt = $this->pdo->prepare('INSERT INTO vehicules (marque, modele, bva, places, motorisation_id, radio, climatisation, bluetooth, regulateur_vitesse, pack_electrique, gps, prix) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+            $stmt = $this->conn->prepare('INSERT INTO vehicules (marque, modele, bva, places, motorisation_id, radio, climatisation, bluetooth, regulateur_vitesse, pack_electrique, gps, prix) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
             $stmt->execute([$marque, $modele, $bva, $places, $motorisation_id, $radio, $climatisation, $bluetooth, $regulateur_vitesse, $pack_electrique, $gps, $prix]);
             return "Véhicule ajouté avec succès.";
         } catch (PDOException $e) {
-            return 'Erreur : ' . $e->getMessage();
+            throw new Exception("Erreur lors de l'ajout du véhicule : " . $e->getMessage());
         }
     }
 
+    /**
+     * Modifie un véhicule existant.
+     */
     public function modifierVehicule($id, $marque, $modele, $bva, $places, $motorisation_id, $radio, $climatisation, $bluetooth, $regulateur_vitesse, $pack_electrique, $gps, $prix) {
         try {
-            $stmt = $this->pdo->prepare('UPDATE vehicules SET marque = ?, modele = ?, bva = ?, places = ?, motorisation_id = ?, radio = ?, climatisation = ?, bluetooth = ?, regulateur_vitesse = ?, pack_electrique = ?, gps = ?, prix = ? WHERE id = ?');
+            $stmt = $this->conn->prepare('UPDATE vehicules SET marque = ?, modele = ?, bva = ?, places = ?, motorisation_id = ?, radio = ?, climatisation = ?, bluetooth = ?, regulateur_vitesse = ?, pack_electrique = ?, gps = ?, prix = ? WHERE id = ?');
             $stmt->execute([$marque, $modele, $bva, $places, $motorisation_id, $radio, $climatisation, $bluetooth, $regulateur_vitesse, $pack_electrique, $gps, $prix, $id]);
             return "Véhicule modifié avec succès.";
         } catch (PDOException $e) {
-            return 'Erreur : ' . $e->getMessage();
+            throw new Exception("Erreur lors de la modification du véhicule : " . $e->getMessage());
         }
     }
 
+    /**
+     * Supprime un véhicule.
+     */
     public function supprimerVehicule($id) {
         try {
-            $stmt = $this->pdo->prepare('DELETE FROM vehicules WHERE id = ?');
+            $stmt = $this->conn->prepare('DELETE FROM vehicules WHERE id = ?');
             $stmt->execute([$id]);
             return "Véhicule supprimé avec succès.";
         } catch (PDOException $e) {
-            return 'Erreur : ' . $e->getMessage();
+            throw new Exception("Erreur lors de la suppression du véhicule : " . $e->getMessage());
         }
     }
 
+    /**
+     * Récupère un véhicule par son ID.
+     */
     public function obtenirParId($id) {
         try {
-            $stmt = $this->pdo->prepare('SELECT * FROM vehicules WHERE id = ?');
+            $stmt = $this->conn->prepare('SELECT * FROM vehicules WHERE id = ?');
             $stmt->execute([$id]);
-            return $stmt->fetch();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            return null;
+            throw new Exception("Erreur lors de la récupération du véhicule : " . $e->getMessage());
         }
     }
+
+    /**
+     * Récupère tous les véhicules.
+     */
     public function obtenirTous() {
-        $stmt = $this->pdo->query("SELECT * FROM vehicules");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $stmt = $this->conn->query("SELECT * FROM vehicules");
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception("Erreur lors de la récupération des véhicules : " . $e->getMessage());
+        }
     }
-    
 }
 ?>

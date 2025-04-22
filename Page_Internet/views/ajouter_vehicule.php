@@ -14,11 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $motorisations = $motorisationController->getAllMotorisations();
 ?>
+<!DOCTYPE html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Ajout Vehicule - Location de véhicules</title>
+    <title>Ajout Véhicule - Location de véhicules</title>
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
+<body>
 <?php include '..\Layouts\header.php'; ?>
 <h2>Ajouter un véhicule</h2>
 <form method="POST" enctype="multipart/form-data">
@@ -34,7 +37,7 @@ $motorisations = $motorisationController->getAllMotorisations();
     <label>Motorisation :</label>
     <select name="id_motorisation" required>
         <?php foreach ($motorisations as $m) : ?>
-            <option value="<?= $m['id'] ?>"><?= ($m['nom']) ?></option>
+            <option value="<?= htmlspecialchars($m['id']) ?>"><?= htmlspecialchars($m['nom']) ?></option>
         <?php endforeach; ?>
     </select><br>
 
@@ -53,3 +56,5 @@ $motorisations = $motorisationController->getAllMotorisations();
     <button type="submit">Ajouter</button>
 </form>
 <?php include '..\Layouts\footer.php'; ?>
+</body>
+</html>

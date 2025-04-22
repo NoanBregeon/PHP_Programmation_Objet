@@ -20,13 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['success'] = "Réservation effectuée avec succès.";
             header("Location: mes_reservations.php");
             exit();
+        } else {
+            $_SESSION['error'] = "Erreur lors de la réservation.";
         }
     } else {
         $_SESSION['error'] = "Tous les champs sont requis.";
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -40,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <h2>Réserver ce véhicule</h2>
 
 <?php if (isset($_SESSION['error'])): ?>
-    <p class="error"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></p>
+    <p class="error"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
 <?php endif; ?>
 
 <form method="post">
