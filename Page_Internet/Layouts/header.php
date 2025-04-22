@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/..//controllers/config.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -19,7 +19,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 <?php if ($_SESSION['user']['role'] === 'admin'): ?>
                     <li><a href="<?= BASE_URL ?>/views/admin_dashboard.php">Administration</a></li>
                 <?php endif; ?>
-                <li><a href="<?= BASE_URL ?>/views/logout.php">Déconnexion</a></li>
+                <li><a href="<?= BASE_URL ?>/controllers/logout.php">Déconnexion</a></li>
             <?php else: ?>
                 <li><a href="<?= BASE_URL ?>/views/connexion.php">Connexion</a></li>
                 <li><a href="<?= BASE_URL ?>/views/inscription.php">Inscription</a></li>
