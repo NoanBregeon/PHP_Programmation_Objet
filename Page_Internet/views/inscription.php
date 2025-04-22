@@ -20,29 +20,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Inscription - Location de véhicules</title>
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
-<body>
-<?php include '..\Layouts\header.php'; ?>
-<h2>Inscription</h2>
+    <body>
+    <?php include '..\Layouts\header.php'; ?>
+    <h2>Inscription</h2>
 
-<form method="POST">
-    <label>Nom :</label>
-    <input type="text" name="nom" required><br>
+    <form method="POST">
+        <label>Nom :</label>
+        <input type="text" name="nom" required><br>
 
-    <label>Email :</label>
-    <input type="email" name="email" required><br>
+        <label>Email :</label>
+        <input type="email" name="email" required><br>
 
-    <label>Mot de passe :</label>
-    <input type="password" name="password" required><br><br>
+        <label>Mot de passe :</label>
+        <input type="password" name="password" required><br><br>
 
-    <button type="submit">S'inscrire</button>
-</form>
+        <button type="submit">S'inscrire</button>
+    </form>
 
-<?php if (isset($_SESSION['error'])): ?>
-    <p style="color:red"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
-<?php endif; ?>
-<?php if (isset($_SESSION['success'])): ?>
-    <p style="color:green"><?= htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></p>
-<?php endif; ?>
-<?php include '..\Layouts\footer.php'; ?>
-</body>
+    <?php if (isset($_SESSION['error'])): ?>
+        <p style="color:red"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
+    <?php endif; ?>
+    <?php if (isset($_SESSION['success'])): ?>
+        <p style="color:green"><?= htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></p>
+    <?php endif; ?>
+    <?php include '..\Layouts\footer.php'; ?>
+    </body>
 </html>

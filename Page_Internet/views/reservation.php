@@ -35,25 +35,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Réserver un véhicule</title>
     <link rel="stylesheet" href="..\public\styles.css">
 </head>
-<body>
-<?php include '..\Layouts\header.php'; ?>
-
-<h2>Réserver ce véhicule</h2>
-
-<?php if (isset($_SESSION['error'])): ?>
-    <p class="error"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
-<?php endif; ?>
-
-<form method="post">
-    <label>Date de début :</label>
-    <input type="date" name="date_debut" required><br><br>
-
-    <label>Date de fin :</label>
-    <input type="date" name="date_fin" required><br><br>
-
-    <button type="submit">Réserver</button>
-</form>
-
-<?php include '..\Layouts\footer.php'; ?>
-</body>
+    <body>
+        <?php include '../Layouts/header.php'; ?>
+            <h2>Réserver ce véhicule</h2>
+            <?php if (isset($_SESSION['error'])): ?>
+                <p class="error"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
+            <?php endif; ?>
+            <form method="post">
+                <label>Date de début :</label>
+                <input type="date" name="date_debut" required><br><br>
+                <label>Date de fin :</label>
+                <input type="date" name="date_fin" required><br><br>
+                <button type="submit">Réserver</button>
+            </form>
+        <?php include '../Layouts/footer.php'; ?>
+    </body>
 </html>
