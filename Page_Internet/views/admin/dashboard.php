@@ -16,9 +16,9 @@ if (session_status() === PHP_SESSION_NONE) {
 <h2>Tableau de bord administrateur</h2>
 
 <ul>
-    <li><a href="ajouter_vehicule.php">➕ Ajouter un véhicule</a></li>
+    <li><a href="index.php?controller=vehicule&action=create">➕ Ajouter un véhicule</a></li>
     <li><a href="index.php?controller=vehicule&action=flotte">🚗 Gérer les véhicules (flotte)</a></li>
-    <li><a href="admin_reservations.php">📅 Voir toutes les réservations</a></li>
+    <li><a href="index.php?controller=admin&action=reservations">📅 Voir toutes les réservations</a></li>
 </ul>
 
 <?php if (isset($_SESSION['success'])): ?>

@@ -44,7 +44,7 @@ class VehiculeController extends BaseController {
             $this->redirect('index.php?controller=vehicule&action=index');
         }
 
-        $this->render('vehicule/create');
+        $this->render('vehicules/create');
     }
     public function modifierVehicule($id, $data, $file = null){
         if (!$this->isAdmin()) {

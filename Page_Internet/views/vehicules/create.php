@@ -1,6 +1,6 @@
 <?php
-require_once '../controllers/VehiculeController.php';
-require_once '../controllers/MotorisationController.php';
+require_once '../Page_Internet\controllers\VehiculeController.php';
+require_once '../Page_Internet\controllers\MotorisationController.php';
 
 $controller = new VehiculeController();
 $motorisationController = new MotorisationController();
