@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 25 avr. 2025 à 11:03
+-- Généré le : ven. 25 avr. 2025 à 11:06
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.2.18
 
@@ -32,9 +32,9 @@ USE `location_vehicules`;
 DROP TABLE IF EXISTS `motorisation`;
 CREATE TABLE IF NOT EXISTS `motorisation` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(50) NOT NULL,
+  `nom` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `motorisation`
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `reservations` (
   PRIMARY KEY (`id`),
   KEY `fk_utilisateur` (`id_utilisateur`),
   KEY `fk_vehicule` (`id_vehicule`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -73,12 +73,12 @@ CREATE TABLE IF NOT EXISTS `reservations` (
 DROP TABLE IF EXISTS `utilisateurs`;
 CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(100) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `role` varchar(20) DEFAULT 'utilisateur',
+  `nom` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `role` varchar(20) COLLATE utf8mb4_general_ci DEFAULT 'utilisateur',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `utilisateurs`
@@ -98,17 +98,17 @@ INSERT INTO `utilisateurs` (`id`, `nom`, `email`, `password`, `role`) VALUES
 DROP TABLE IF EXISTS `vehicules`;
 CREATE TABLE IF NOT EXISTS `vehicules` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(100) DEFAULT NULL,
-  `marque` varchar(100) DEFAULT NULL,
-  `modele` varchar(100) DEFAULT NULL,
+  `nom` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `marque` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `modele` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `id_motorisation` int DEFAULT NULL,
   `prix_journalier` decimal(10,2) DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
+  `image` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `boite_auto` tinyint(1) DEFAULT '0',
   `nb_places` int DEFAULT '4',
   PRIMARY KEY (`id`),
   KEY `id_motorisation` (`id_motorisation`)
-) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `vehicules`
