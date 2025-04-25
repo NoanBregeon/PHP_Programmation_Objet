@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 02 avr. 2025 à 13:06
+-- Généré le : ven. 25 avr. 2025 à 11:00
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.2.18
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `location_vehicules`
 --
+CREATE DATABASE IF NOT EXISTS `location_vehicules` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE `location_vehicules`;
 
 -- --------------------------------------------------------
 
@@ -60,15 +62,7 @@ CREATE TABLE IF NOT EXISTS `reservations` (
   PRIMARY KEY (`id`),
   KEY `fk_utilisateur` (`id_utilisateur`),
   KEY `fk_vehicule` (`id_vehicule`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `reservations`
---
-
-INSERT INTO `reservations` (`id`, `id_vehicule`, `id_utilisateur`, `date_debut`, `date_fin`) VALUES
-(1, 1, 2, '2025-04-03', '2025-04-25'),
-(3, 1, 3, '2025-02-05', '2025-04-01');
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -121,7 +115,6 @@ CREATE TABLE IF NOT EXISTS `vehicules` (
 --
 
 INSERT INTO `vehicules` (`id`, `nom`, `marque`, `modele`, `id_motorisation`, `prix_journalier`, `image`, `boite_auto`, `nb_places`) VALUES
-(1, 'Peugeot 208', 'Peugeot', '208', 1, 45.00, '../public/images/67ed330bcb0e7_peugeot_208.jpg', 0, 5),
 (2, 'Renault Clio', 'Renault', 'Clio V', 1, 50.00, '../public/images/67ed336fd404f_renault-clio-facelift-wm-argus_3.jpg', 0, 5),
 (3, 'Tesla Model 3', 'Tesla', 'Model 3', 2, 120.00, NULL, 1, 5),
 (4, 'Volkswagen Golf', 'Volkswagen', 'Golf 8', 1, 60.00, '../public/images/67ed33cc29ece_Volkswagen_Golf_8.jpg', 0, 5),
@@ -137,11 +130,9 @@ INSERT INTO `vehicules` (`id`, `nom`, `marque`, `modele`, `id_motorisation`, `pr
 (17, 'Zoe', 'Renault', 'Zoe E-Tech', 3, 42.00, NULL, 1, 5),
 (18, 'Golf', 'Volkswagen', 'Golf 8', 2, 55.50, NULL, 1, 5),
 (19, 'Polo', 'Volkswagen', 'Polo R-Line', 2, 39.90, NULL, 0, 5),
-(20, 'A3', 'Audi', 'A3 Sportback', 2, 65.00, NULL, 1, 5),
 (21, 'Corsa', 'Opel', 'Corsa E', 1, 35.50, NULL, 0, 5),
 (22, 'i20', 'Hyundai', 'i20 2023', 1, 36.00, NULL, 0, 5),
 (23, 'Yaris', 'Toyota', 'Yaris Hybride', 3, 43.00, NULL, 1, 5),
-(24, 'A1', 'Audi', 'A1 Citycarver', 1, 60.00, NULL, 1, 4),
 (25, 'Mini', 'Mini', 'Cooper SE', 3, 70.00, NULL, 1, 4),
 (26, 'Sandero', 'Dacia', 'Sandero Stepway', 1, 32.00, NULL, 0, 5),
 (27, 'T-Roc', 'Volkswagen', 'T-Roc', 2, 58.00, NULL, 1, 5),
