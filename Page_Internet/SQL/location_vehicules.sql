@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 25 avr. 2025 à 11:02
+-- Généré le : ven. 25 avr. 2025 à 11:03
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.2.18
 
@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `location_vehicules`
 --
-CREATE DATABASE IF NOT EXISTS `location_vehicules` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+CREATE DATABASE IF NOT EXISTS `location_vehicules` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `location_vehicules`;
 
 -- --------------------------------------------------------
